@@ -8,3 +8,6 @@ mecab = MeCab.Tagger()
 result = mecab.parse(inputText)
 
 print("result all: \n" + result)
+
+with open("data/output/test_output.txt", "w") as file:
+    file.write(result)
