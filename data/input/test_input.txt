@@ -1,0 +1,2 @@
+これはテスト用の入力です。
+This is test input.
