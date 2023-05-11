@@ -6,6 +6,12 @@ class Adjective:
         self.value = value
         self.vector = vector
 
+    def getSaturation(self):
+        return self.saturation
+
+    def getValue(self):
+        return self.value
+
 
 # 空の配列
 adjective_list = []
@@ -26,3 +32,8 @@ for item in data:
 for adj in adjective_list:
     print(adj.num, ".", adj.adverb,
           ": (", adj.saturation, ",", adj.value, ")", adj.vector)
+
+x = adjective_list[0].getSaturation()
+print(x)
+y = adjective_list[0].getValue()
+print(y)
