@@ -1,3 +1,5 @@
+import spacy
+nlp = spacy.load('ja_ginza')
 class Adjective:
     def __init__(self, num, adverb, saturation, value, vector):
         self.num = num
@@ -11,6 +13,12 @@ class Adjective:
 
     def getValue(self):
         return self.value
+
+    def getVector(self):
+        # 入力された文章自体のベクトルを初期実装としてreturn
+        doc = nlp(self.adverb)
+        vector = doc.vector
+        return vector
 
 
 # 空の配列
@@ -37,3 +45,5 @@ x = adjective_list[0].getSaturation()
 print(x)
 y = adjective_list[0].getValue()
 print(y)
+z = adjective_list[2].getVector()
+print(z)
