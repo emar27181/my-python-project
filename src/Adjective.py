@@ -61,12 +61,24 @@ for adj in adjective_list:
     if (DEBUG):
         print(adj.vector)
 
+
 def caluculateMaxSimilarity(doc):
     maxSim = -1
+    maxNum = -1
     for adj in adjective_list:
-        print("\n", adj.text)
-        print(doc.similarity(adj.doc))
+        # print("\n", adj.text)
+        # print(doc.similarity(adj.doc))
+        if (maxSim < doc.similarity(adj.doc)):
+            maxSim = doc.similarity(adj.doc)
+            maxNum = adj.num
 
-x = "明るい"
+    return maxNum
+
+
+x = "鼠色の"
 docX = nlp(x)
-caluculateMaxSimilarity(docX)
+numX = caluculateMaxSimilarity(docX)
+
+print("\n")
+print(numX)
+print(adjective_list[numX].text)
