@@ -3,12 +3,18 @@ nlp = spacy.load('ja_ginza')
 DEBUG = False
 
 
+def getVector(text):
+        # 入力された文章自体のベクトルを初期実装としてreturn
+        doc = nlp(text)
+        vector = doc.vector
+        return vector
 class Adjective:
     def __init__(self, num, adverb, saturation, value):
         self.num = num
         self.adverb = adverb
         self.saturation = saturation
         self.value = value
+        self.vector = getVector(self.adverb)
 
     def getSaturation(self):
         return self.saturation
@@ -16,11 +22,7 @@ class Adjective:
     def getValue(self):
         return self.value
 
-    def getVector(self):
-        # 入力された文章自体のベクトルを初期実装としてreturn
-        doc = nlp(self.adverb)
-        vector = doc.vector
-        return vector
+
 
 
 # 空の配列
@@ -56,4 +58,4 @@ for item in data:
 for adj in adjective_list:
     print(adj.num, ".", adj.adverb, ": (", adj.saturation, ",", adj.value, ")")
     if (DEBUG):
-        print(adj.getVector())
+        print(adj.vector)
