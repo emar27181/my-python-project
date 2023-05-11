@@ -3,13 +3,6 @@ nlp = spacy.load('ja_ginza')
 DEBUG = False
 
 
-def getVector(text):
-    # 入力された文章自体のベクトルを初期実装としてreturn
-    doc = nlp(text)
-    vector = doc.vector
-    return vector
-
-
 class Adjective:
     def __init__(self, num, text, saturation, value):
         self.num = num
@@ -24,6 +17,13 @@ class Adjective:
 
     def getValue(self):
         return self.value
+
+
+def getVector(text):
+    # 入力された文章自体のベクトルを初期実装としてreturn
+    doc = nlp(text)
+    vector = doc.vector
+    return vector
 
 
 # 空の配列
@@ -72,13 +72,17 @@ def caluculateMaxSimilarity(doc):
             maxSim = doc.similarity(adj.doc)
             maxNum = adj.num
 
+    print("maxSim: ", maxSim)
     return maxNum
 
 
-x = "鼠色の"
+x = "まばゆい光が当たり一目を照らしている。"
+x = "まぶしい光"
+# x = "暗い"
+print("\ntestInput: " + x)
 docX = nlp(x)
+print("\nresult: ")
 numX = caluculateMaxSimilarity(docX)
 
-print("\n")
-print(numX)
-print(adjective_list[numX].text)
+print("No", adjective_list[numX].num, ".", adjective_list[numX].text, ": (",
+      adjective_list[numX].saturation, ",", adjective_list[numX].value, ")")
