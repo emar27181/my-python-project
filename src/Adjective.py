@@ -43,10 +43,3 @@ for adj in adjective_list:
     print(adj.num, ".", adj.adverb, ": (", adj.saturation, ",", adj.value, ")")
     if (DEBUG):
         print(adj.getVector())
-
-x = adjective_list[0].getSaturation()
-print(x)
-y = adjective_list[0].getValue()
-print(y)
-z = adjective_list[2].getVector()
-# print(z)
