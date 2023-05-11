@@ -11,13 +11,13 @@ def getVector(text):
 
 
 class Adjective:
-    def __init__(self, num, adverb, saturation, value):
+    def __init__(self, num, text, saturation, value):
         self.num = num
-        self.adverb = adverb
+        self.text = text
         self.saturation = saturation
         self.value = value
-        self.vector = getVector(self.adverb)
-        self.doc = nlp(adverb)
+        self.vector = getVector(self.text)
+        self.doc = nlp(text)
 
     def getSaturation(self):
         return self.saturation
@@ -57,14 +57,14 @@ for item in data:
 
 # 配列の要素を表示
 for adj in adjective_list:
-    print(adj.num, ".", adj.adverb, ": (", adj.saturation, ",", adj.value, ")")
+    print(adj.num, ".", adj.text, ": (", adj.saturation, ",", adj.value, ")")
     if (DEBUG):
         print(adj.vector)
 
 def caluculateMaxSimilarity(doc):
     maxSim = -1
     for adj in adjective_list:
-        print("\n", adj.adverb)
+        print("\n", adj.text)
         print(doc.similarity(adj.doc))
 
 x = "明るい"
