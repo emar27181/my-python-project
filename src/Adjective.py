@@ -1,12 +1,13 @@
 import spacy
 nlp = spacy.load('ja_ginza')
+
+
 class Adjective:
-    def __init__(self, num, adverb, saturation, value, vector):
+    def __init__(self, num, adverb, saturation, value):
         self.num = num
         self.adverb = adverb
         self.saturation = saturation
         self.value = value
-        self.vector = vector
 
     def getSaturation(self):
         return self.saturation
@@ -26,9 +27,9 @@ adjective_list = []
 
 # データを用意
 data = [
-    (1, "明るい", 70, 80, [0.1, 0.3, 0.5]),
-    (2, "暗い", 20, 60, [0.4, 0.6, 0.8]),
-    (3, "鮮やかな", 90, 90, [0.2, 0.4, 0.6])
+    (1, "明るい", 70, 80),
+    (2, "暗い", 20, 60),
+    (3, "鮮やかな", 90, 90)
 ]
 
 # クラスのインスタンスを生成し、配列に追加
