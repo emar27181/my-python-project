@@ -1,5 +1,6 @@
 import spacy
 nlp = spacy.load('ja_ginza')
+DEBUG = False
 
 
 class Adjective:
@@ -39,12 +40,13 @@ for item in data:
 
 # 配列の要素を表示
 for adj in adjective_list:
-    print(adj.num, ".", adj.adverb,
-          ": (", adj.saturation, ",", adj.value, ")", adj.vector)
+    print(adj.num, ".", adj.adverb, ": (", adj.saturation, ",", adj.value, ")")
+    if (DEBUG):
+        print(adj.getVector())
 
 x = adjective_list[0].getSaturation()
 print(x)
 y = adjective_list[0].getValue()
 print(y)
 z = adjective_list[2].getVector()
-print(z)
+# print(z)
