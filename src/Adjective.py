@@ -4,10 +4,12 @@ DEBUG = False
 
 
 def getVector(text):
-        # 入力された文章自体のベクトルを初期実装としてreturn
-        doc = nlp(text)
-        vector = doc.vector
-        return vector
+    # 入力された文章自体のベクトルを初期実装としてreturn
+    doc = nlp(text)
+    vector = doc.vector
+    return vector
+
+
 class Adjective:
     def __init__(self, num, adverb, saturation, value):
         self.num = num
@@ -15,14 +17,13 @@ class Adjective:
         self.saturation = saturation
         self.value = value
         self.vector = getVector(self.adverb)
+        self.doc = nlp(adverb)
 
     def getSaturation(self):
         return self.saturation
 
     def getValue(self):
         return self.value
-
-
 
 
 # 空の配列
@@ -41,7 +42,7 @@ data = [
     (8, "淡い", 50, 75),
     (9, "透き通る", 45, 70),
     (10, "濃い", 80, 60),
-    (11, "奥ゆかしい", 85, 45),
+    (11, "深い", 85, 45),
     (12, "灰色の", 15, 20),
     (13, "鼠色の", 15, 50),
     (14, "和風の", 65, 25),
@@ -49,7 +50,7 @@ data = [
     (16, "黒い", 90, 10),
 ]
 
-# クラスのインスタンスを生成し、配列に追加
+# Adjectiveクラスのインスタンスを生成し、配列に追加
 for item in data:
     adj = Adjective(*item)  # タプルの要素を展開して引数に渡す
     adjective_list.append(adj)
@@ -59,3 +60,13 @@ for adj in adjective_list:
     print(adj.num, ".", adj.adverb, ": (", adj.saturation, ",", adj.value, ")")
     if (DEBUG):
         print(adj.vector)
+
+def caluculateMaxSimilarity(doc):
+    maxSim = -1
+    for adj in adjective_list:
+        print("\n", adj.adverb)
+        print(doc.similarity(adj.doc))
+
+x = "明るい"
+docX = nlp(x)
+caluculateMaxSimilarity(docX)
