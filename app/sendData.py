@@ -1,7 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect, url_for
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return redirect(url_for("get_data"))
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
@@ -11,7 +14,6 @@ def get_data():
         {"id": 3, "name": "データ3"},
     ]
     return jsonify(data)
-
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
