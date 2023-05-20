@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     return redirect(url_for("get_data"))
 
-@app.route('/api/data', methods=['GET'])
+@app.route('/api/data', methods=['GET', 'POST'])
 def get_data():
     data = [
         {"id": 1, "name": "データ1"},
