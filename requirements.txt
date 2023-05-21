@@ -32,6 +32,7 @@ itsdangerous==2.1.2
 ja-ginza==5.1.2
 Jinja2==3.1.2
 joblib==1.2.0
+langchain==0.0.175
 langcodes==3.3.0
 lazy_loader==0.2
 librosa==0.10.0.post2
