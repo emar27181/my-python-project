@@ -5,7 +5,7 @@ from langchain.llms import OpenAIChat
 from langchain import PromptTemplate, LLMChain
 import os
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "EPIキーをここに記述"
 
 template = "{text}"
 
