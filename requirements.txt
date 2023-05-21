@@ -63,6 +63,7 @@ nvidia-cusolver-cu11==11.4.0.1
 nvidia-cusparse-cu11==11.7.4.91
 nvidia-nccl-cu11==2.14.3
 nvidia-nvtx-cu11==11.7.91
+openai==0.27.7
 openapi-schema-pydantic==1.2.4
 packaging==23.1
 pathy==0.10.1
