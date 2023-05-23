@@ -5,9 +5,6 @@ import logging
 app = Flask(__name__)
 CORS(app)
 
-inputData = "initial Text"
-outputData = "initial Text"
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -16,17 +13,8 @@ def index():
     return redirect('/api/data')
 
 
-@app.route('/api/send-data', methods=['GET', 'POST'])
-def send_data():  # データの送信
-    print("send_data() is called(送信)")
-    outputData = inputData +  " + test add text"
-    data = {'message': outputData}
-    return jsonify(data)
-
-
 @app.route('/api/receive-data', methods=['GET', 'POST'])
 def receive_data():  # データの受信
-    # 2023/05/23時点では一つの入力データの保存しか保存できない
     print("receive_data() is called(受信)")
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
@@ -34,6 +22,17 @@ def receive_data():  # データの受信
         file.write(inputData + '\n')
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
+
+
+@app.route('/api/send-data', methods=['GET', 'POST'])
+def send_data():  # データの送信
+    print("send_data() is called(送信)")
+
+    with open('data/input/InputData.txt', 'r') as file:
+        outputData = file.read()
+        print("outputData: ", outputData)
+    data = {'message': outputData}
+    return jsonify(data)
 
 
 if __name__ == '__main__':
