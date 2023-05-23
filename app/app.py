@@ -30,6 +30,9 @@ def receive_data():  # データの受信
     print("receive_data() is called(受信)")
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
+    with open('data/input/InputData.txt', 'a') as file:
+        file.write(inputData + '\n')
+
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
 
