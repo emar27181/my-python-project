@@ -5,6 +5,9 @@ import logging
 app = Flask(__name__)
 CORS(app)
 
+inputData = "initial Text"
+outputData = "initial Text"
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -22,6 +25,7 @@ def send_data():  # データの送信
 
 @app.route('/api/receive-data', methods=['GET', 'POST'])
 def receive_data():  # データの受信
+    # 2023/05/23時点では一つの入力データの保存しか保存できない
     print("receive_data() is called(受信)")
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
