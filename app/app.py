@@ -12,16 +12,8 @@ def index():
 
 
 @app.route('/api/data', methods=['GET', 'POST'])
-def get_data():
+def post_data():
     data = {'message': 'This is the data from Flask!'}
-
-    """
-    data = [
-        {"id": 1, "name": "データ1"},
-        {"id": 2, "name": "データ2"},
-        {"id": 3, "name": "データ3"},
-    ]
-    """
     return jsonify(data)
 
 
