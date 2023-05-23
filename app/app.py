@@ -19,7 +19,8 @@ def index():
 @app.route('/api/send-data', methods=['GET', 'POST'])
 def send_data():  # データの送信
     print("send_data() is called(送信)")
-    data = {'message': 'This is the data from Flask!'}
+    outputData = inputData +  " + test add text"
+    data = {'message': outputData}
     return jsonify(data)
 
 
