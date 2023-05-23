@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, redirect, url_for
+from flask import Flask, jsonify, redirect, url_for, request
 from flask_cors import CORS
 import logging
 
@@ -15,17 +15,17 @@ def index():
 
 @app.route('/api/send-data', methods=['GET', 'POST'])
 def send_data():  # データの送信
-    print("post_data() is called(送信)")
+    print("send_data() is called(送信)")
     data = {'message': 'This is the data from Flask!'}
     return jsonify(data)
 
 
 @app.route('/api/receive-data', methods=['GET', 'POST'])
 def receive_data():  # データの受信
-    print("fetch_data() is called(受信)")
+    print("receive_data() is called(受信)")
     data = request.json.get('data')  # フロントエンドからデータを受信
-    print("This is a debug test message(print)")
     print("data: ", data)
+    return jsonify({"message": "Data sent successfully!"})
 
 
 if __name__ == '__main__':
