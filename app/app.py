@@ -23,9 +23,9 @@ def send_data():  # データの送信
 @app.route('/api/receive-data', methods=['GET', 'POST'])
 def receive_data():  # データの受信
     print("receive_data() is called(受信)")
-    data = request.json.get('data')  # フロントエンドからデータを受信
-    print("data: ", data)
-    return jsonify({"message": "Data sent successfully!"})
+    inputData = request.json.get('data')  # フロントエンドからデータを受信
+    print("inputData: ", inputData)
+    return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
 
 if __name__ == '__main__':
