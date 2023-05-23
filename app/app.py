@@ -7,14 +7,18 @@ CORS(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    data = request.json.get('data')  # 2 フロントエンドから受信したデータ
-    {"greeting": "Hello! {}".format(data)}
+    return redirect('/api/data')
 
 
 @app.route('/api/data', methods=['GET', 'POST'])
 def post_data():
     data = {'message': 'This is the data from Flask!'}
     return jsonify(data)
+
+
+def fetch_data():
+    data = request.json.get('data')  # 2 フロントエンドから受信したデータ
+    {"greeting": "Hello! {}".format(data)}
 
 
 if __name__ == '__main__':
