@@ -49,9 +49,13 @@ llm_chain = LLMChain(
     llm=llm
 )
 
-text = """
-ウクライナでの悲惨な状況を見ると胸が痛む。戦争反対。
-"""
+with open('data/input/InputData.txt', 'r') as input_file:
+    input_data = input_file.read()
 
-res = llm_chain.run(text)
+res = llm_chain.run(input_data)
+
+with open('data/output/OutputData.txt', 'w') as output_file:
+    output_file.write(res)
+
+print(input_data)
 print(res)
