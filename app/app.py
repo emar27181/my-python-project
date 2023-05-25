@@ -18,7 +18,7 @@ CORS(app)
 def index():
     app.logger.debug("This is a debug test message(logging)")
     print("This is a debug test message(print)")
-    return redirect('/api/data')
+    return redirect('/api/send-data')
 
 
 @app.route('/api/receive-data', methods=['GET', 'POST'])
