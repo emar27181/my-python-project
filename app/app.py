@@ -1,5 +1,6 @@
 
 # from tmp import tryEmotionAnalyzeWithGPT
+# import EmotionAnalyzeWithGPT
 import logging
 from flask_cors import CORS
 from flask import Flask, jsonify, redirect, url_for, request
@@ -28,7 +29,7 @@ def receive_data():  # データの受信
     print("inputData: ", inputData)
     with open('data/input/InputData.txt', 'a') as file:
         file.write(inputData + '\n')  # 入力ファイルの更新
-    # tryEmotionAnalyzeWithGPT()
+    # EmotionAnalyzeWithGPT()
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
