@@ -1,6 +1,14 @@
-from flask import Flask, jsonify, redirect, url_for, request
-from flask_cors import CORS
+
+# from tmp import tryEmotionAnalyzeWithGPT
 import logging
+from flask_cors import CORS
+from flask import Flask, jsonify, redirect, url_for, request
+import os
+
+# カレントディレクトリを app ディレクトリに設定
+current_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(current_dir)
+
 
 app = Flask(__name__)
 CORS(app)
@@ -19,7 +27,8 @@ def receive_data():  # データの受信
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
     with open('data/input/InputData.txt', 'a') as file:
-        file.write(inputData + '\n')
+        file.write(inputData + '\n')  # 入力ファイルの更新
+    # tryEmotionAnalyzeWithGPT()
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
