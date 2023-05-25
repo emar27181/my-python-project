@@ -6,8 +6,8 @@ from flask import Flask, jsonify, redirect, url_for, request
 import os
 
 # カレントディレクトリを app ディレクトリに設定
-current_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(current_dir)
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# os.chdir(current_dir)
 
 
 app = Flask(__name__)
