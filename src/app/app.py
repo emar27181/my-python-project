@@ -1,6 +1,15 @@
-from flask import Flask, jsonify, redirect, url_for, request
-from flask_cors import CORS
+
+# from tmp import tryEmotionAnalyzeWithGPT
+# import EmotionAnalyzeWithGPT
 import logging
+from flask_cors import CORS
+from flask import Flask, jsonify, redirect, url_for, request
+import os
+
+# カレントディレクトリを app ディレクトリに設定
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# os.chdir(current_dir)
+
 
 app = Flask(__name__)
 CORS(app)
@@ -10,7 +19,7 @@ CORS(app)
 def index():
     app.logger.debug("This is a debug test message(logging)")
     print("This is a debug test message(print)")
-    return redirect('/api/data')
+    return redirect('/api/send-data')
 
 
 @app.route('/api/receive-data', methods=['GET', 'POST'])
@@ -19,7 +28,8 @@ def receive_data():  # データの受信
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
     with open('data/input/InputData.txt', 'a') as file:
-        file.write(inputData + '\n')
+        file.write(inputData + '\n')  # 入力ファイルの更新
+    # EmotionAnalyzeWithGPT()
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
@@ -28,7 +38,7 @@ def receive_data():  # データの受信
 def send_data():  # データの送信
     print("send_data() is called(送信)")
 
-    with open('data/input/InputData.txt', 'r') as file:
+    with open('data/output/OutputData.txt', 'r') as file:
         outputData = file.read()
         print("outputData: ", outputData)
     data = {'message': outputData}

@@ -1,3 +1,4 @@
 my-nlp-venv/
 settings.json
 data/
+*.pyc
