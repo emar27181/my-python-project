@@ -21,6 +21,22 @@ content = """
 文章から、著者の心理状態を分析することに長けています。
 次の文章をもとに心理分析してください。
 返答の出力形式は、以下に従うものとします。
+[
+{"name": "joy", "intense": 0～10},
+{"name": "trust", "intense": 0～10},
+{"name": "fear", "intense" :0～10},
+{"name": "surprise", "intense": 0～10},
+{"name": "sadness", "intense": 0～10},
+{"name": "disgust", "intense": 0～10},
+{"name": "anger", "intense": 0～10},
+{"name": "anticipation","intense":0～10}
+]
+"""
+
+あなたは、世界でも有数の精神分析家です。
+文章から、著者の心理状態を分析することに長けています。
+次の文章をもとに心理分析してください。
+返答の出力形式は、以下に従うものとします。
 [result]
 positive or negative
 [detail]
