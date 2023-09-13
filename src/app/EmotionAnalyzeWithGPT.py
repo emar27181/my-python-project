@@ -33,6 +33,7 @@ content = """
 ]
 """
 
+content_test ="""
 あなたは、世界でも有数の精神分析家です。
 文章から、著者の心理状態を分析することに長けています。
 次の文章をもとに心理分析してください。
@@ -53,6 +54,7 @@ anticipation:0～10
 
 prefix_messages = [
     {"role": "system", "content": content}
+    # {"role": "system", "content": content_test}
 ]
 
 llm = OpenAIChat(
