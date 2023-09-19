@@ -1,6 +1,6 @@
 
 # from tmp import tryEmotionAnalyzeWithGPT
-# import EmotionAnalyzeWithGPT
+import EmotionAnalyzeWithGPT
 import logging
 from flask_cors import CORS
 from flask import Flask, jsonify, redirect, url_for, request
@@ -28,8 +28,9 @@ def receive_data():  # データの受信
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
     with open('data/input/InputData.txt', 'a') as file:
+        # 現在のコードではInputData.txtの初期化がないため、文章が付け足され続けてしまう(2023/09/13)
         file.write(inputData + '\n')  # 入力ファイルの更新
-    # EmotionAnalyzeWithGPT()
+    EmotionAnalyzeWithGPT()  # 実行しようと思うと
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
@@ -38,7 +39,7 @@ def receive_data():  # データの受信
 def send_data():  # データの送信
     print("send_data() is called(送信)")
 
-    with open('data/output/OutputData.txt', 'r') as file:
+    with open('data/output/OutputData.json', 'r') as file:
         outputData = file.read()
         print("outputData: ", outputData)
     data = {'message': outputData}
