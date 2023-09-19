@@ -39,7 +39,7 @@ def receive_data():  # データの受信
 def send_data():  # データの送信
     print("send_data() is called(送信)")
 
-    with open('data/output/OutputData.txt', 'r') as file:
+    with open('data/output/OutputData.json', 'r') as file:
         outputData = file.read()
         print("outputData: ", outputData)
     data = {'message': outputData}

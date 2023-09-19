@@ -72,7 +72,7 @@ with open('data/input/InputData.txt', 'r') as input_file:
 
 res = llm_chain.run(input_data)
 
-with open('data/output/OutputData.txt', 'w') as output_file:
+with open('data/output/OutputData.json', 'w') as output_file:
     output_file.write(res)
 
 print(input_data)
