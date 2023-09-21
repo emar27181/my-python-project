@@ -34,6 +34,12 @@ def receive_data():  # データの受信
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
+@app.route('/api/input-sentence-now', methods=['GET', 'POST'])
+def send_input_sentence():
+    with open('data/input/InputData.txt', 'r') as file:
+        input_sentence = file.read()
+    data = {'input_sentence': input_sentence}
+    return jsonify(data)
 
 @app.route('/api/send-data', methods=['GET', 'POST'])
 def send_data():  # データの送信

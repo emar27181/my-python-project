@@ -22,14 +22,14 @@ content = """
 次の文章をもとに心理分析してください。
 返答の出力形式は、以下に従うものとします。
 [
+{"name": "anger", "hue": "344", "intense": 0～10},
+{"name": "anticipation", "hue": "19", "intense":0～10},
 {"name": "joy", "hue": "53", "intense": 0～10},
 {"name": "trust", "hue": "66", "intense": 0～10},
 {"name": "fear", "hue": "153", "intense" :0～10},
 {"name": "surprise", "hue": "201", "intense": 0～10},
 {"name": "sadness", "hue": "209", "intense": 0～10},
-{"name": "disgust", "hue": "300", "intense": 0～10},
-{"name": "anger", "hue": "344", "intense": 0～10},
-{"name": "anticipation", "hue": "19", "intense":0～10}
+{"name": "disgust", "hue": "300", "intense": 0～10}
 ]
 """
 
