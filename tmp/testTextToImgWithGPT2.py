@@ -18,5 +18,5 @@ response = openai.Image.create(
 
 for data, n in zip(response["data"], range(NUMBER_OF_IMAGES)):
     img_data = base64.b64decode(data["b64_json"])
-    with open(f"image_{n}.png", "wb") as f:
+    with open(f"data/output/image_{n}.png", "wb") as f:
         f.write(img_data)
