@@ -1,6 +1,7 @@
 
 # from tmp import tryEmotionAnalyzeWithGPT
 import EmotionAnalyzeWithGPT
+# from EmotionAnalyzeWithGPT import analyze_emotion #新たに宣言した関数をいずれ読み込む(2023/09/24)
 import logging
 from flask_cors import CORS
 from flask import Flask, jsonify, redirect, url_for, request
@@ -33,12 +34,21 @@ def receive_data():  # データの受信
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
+
+"""
+@app.route('/api/analyze-emotion', methods=['GET', 'POST'])
+def call_analyze_emotion():
+    analyze_emotion()
+"""
+
+
 @app.route('/api/input-sentence-now', methods=['GET', 'POST'])
 def send_input_sentence():
     with open('data/input/InputData.txt', 'r') as file:
         input_sentence = file.read()
     data = {'input_sentence': input_sentence}
     return jsonify(data)
+
 
 @app.route('/api/send-data', methods=['GET', 'POST'])
 def send_data():  # データの送信
