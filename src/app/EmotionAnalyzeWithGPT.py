@@ -5,6 +5,8 @@ from langchain.llms import OpenAIChat
 from langchain import PromptTemplate, LLMChain
 import os
 
+# def analyse_emotion():などで関数宣言をしないと、他ファイルでインポートが出来ない
+
 api_key = os.environ.get('OPENAI_API_KEY')
 # print("api_key: ", api_key)
 os.environ["OPENAI_API_KEY"] = api_key
