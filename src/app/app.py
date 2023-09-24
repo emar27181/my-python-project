@@ -27,10 +27,9 @@ def receive_data():  # データの受信
     print("receive_data() is called(受信)")
     inputData = request.json.get('data')  # フロントエンドからデータを受信
     print("inputData: ", inputData)
-    with open('data/input/InputData.txt', 'a') as file:
-        # 現在のコードではInputData.txtの初期化がないため、文章が付け足され続けてしまう(2023/09/13)
+    with open('data/input/InputData.txt', 'w') as file:
         file.write(inputData + '\n')  # 入力ファイルの更新
-    EmotionAnalyzeWithGPT()  # 実行しようと思うと
+    # EmotionAnalyzeWithGPT()  # 実行しようと思うとバグが発生(2023/09/24)
 
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
