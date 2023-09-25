@@ -39,7 +39,9 @@ def receive_data():  # データの受信
 @app.route('/api/analyze-emotion', methods=['GET', 'POST'])
 def call_analyze_emotion():
     analyze_emotion()
-    return jsonify({"message": "analeyze_emotion() was called"})
+    with open('data/input/InputData.txt', 'r') as input_file:
+        input_data = input_file.read()
+    return jsonify({"message": "analeyze_emotion() was called (input: "+input_data+" )"})
 
 
 
