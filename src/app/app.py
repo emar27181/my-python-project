@@ -49,8 +49,7 @@ def call_analyze_emotion():
 def send_input_sentence():
     with open('data/input/InputData.txt', 'r') as file:
         input_sentence = file.read()
-    data = {'input_sentence': input_sentence}
-    return jsonify(data)
+    return input_sentence
 
 
 @app.route('/api/send-data', methods=['GET', 'POST'])
