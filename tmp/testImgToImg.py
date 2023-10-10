@@ -12,15 +12,15 @@ device = "cuda"
 pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
     "nitrosocke/Ghibli-Diffusion",
 ).to(device)
-
 init_image = Image.open("data/output/saveCanvas - 2023-10-05T212050.177.png").convert("RGB")
 # init_image = Image.open("data/output/saveCanvas - 2023-10-10T124818.646.png").convert("RGB")
 # init_image = Image.open("data/output/img_to_img_after_3.jpg").convert("RGB")
 init_image.thumbnail((768, 768))
 init_image
 
-file_name_before = 'data/output/img_to_img_before_{}.jpg'.format(current_time.strftime('%Y-%m-%d_%H-%M-%S'))
-file_name_after = 'data/output/img_to_img_after_{}.jpg'.format(current_time.strftime('%Y-%m-%d_%H-%M-%S'))
+current_time_str=current_time.strftime('%Y-%m-%d_%H-%M-%S')
+file_name_before = 'data/output/img_to_img_before_{}.jpg'.format(current_time_str)
+file_name_after = 'data/output/img_to_img_after_{}.jpg'.format(current_time_str)
 
 #with open('data/output/img_to_img.jpg', 'wb') as input_file:
 with open(file_name_before, 'wb') as input_file:
@@ -42,9 +42,8 @@ with open(file_name_after, 'wb') as input_file:
     
 new_data = {
     "prompt": "this is test text",
-    "create_time": current_time.strftime('%Y-%m-%d_%H-%M-%S')
+    "create_time": current_time_str
 }
-
 
 with open('data/log/log.json', 'r') as json_file:
     data = json.load(json_file)
