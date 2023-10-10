@@ -41,8 +41,7 @@ with open(file_name_after, 'wb') as input_file:
 #json形式への書き出しと保存
     
 new_data = {
-    "prompt": "this is test text",
-    "create_time": current_time_str
+    "prompt": prompt,
 }
 
 with open('data/log/log.json', 'r') as json_file:
