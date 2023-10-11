@@ -39,10 +39,11 @@ image
 
 with open(file_name_after, 'wb') as input_file:
     image.save(input_file, format='JPEG')
+    print(f'before: {file_name_before}')
+    print(f'after : {file_name_after}')
     
     
 #json形式への書き出しと保存
-    
 new_data = {
     "prompt": prompt,
     "create_time": current_time_str,
