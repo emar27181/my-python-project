@@ -13,22 +13,17 @@ device = "cuda"
 pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
     "nitrosocke/Ghibli-Diffusion",
 ).to(device)
-# init_image = Image.open("data/output/before/saveCanvas - 2023-10-10T194006.802.png").convert("RGB")
-init_image = Image.open("data/output/after/img_to_img_after_2023-10-10_19-51-34.jpg").convert("RGB")
-# init_image = Image.open("data/output/before/saveCanvas - 2023-10-05T212050.177.png").convert("RGB")
-# init_image = Image.open("data/output/saveCanvas - 2023-10-10T124818.646.png").convert("RGB")
-# init_image = Image.open("data/output/img_to_img_after_3.jpg").convert("RGB")
+
+input_file_path = "data/output/after/img_to_img_after_2023-10-10_19-51-34.jpg"
+init_image = Image.open(input_file_path).convert("RGB")
 init_image.thumbnail((768, 768))
 init_image
 
 current_time = datetime.now()
 current_time_str=current_time.strftime('%Y-%m-%d_%H-%M-%S')
-file_name_before = 'data/output/before/img_to_img_before_{}.jpg'.format(current_time_str)
 file_name_after = 'data/output/after/img_to_img_after_{}.jpg'.format(current_time_str)
 random_number = random.randint(1, 1024)
 
-with open(file_name_before, 'wb') as input_file:
-    init_image.save(input_file, format='JPEG')
 
 
 with open('data/input/input_prompt.txt', "r") as input_file:
@@ -44,7 +39,9 @@ with open(file_name_after, 'wb') as input_file:
 new_data = {
     "prompt": prompt,
     "create_time": current_time_str,
-    "seed": random_number
+    "seed": random_number,
+    "input_file": input_file_path, 
+    "output_file": file_name_after
 }
 
 with open('data/log/log.json', 'r') as json_file:
@@ -56,6 +53,6 @@ with open('data/log/log.json', 'w') as json_file:
     
 #コンソール出力
 print(new_data)
-print(f'before: {file_name_before}')
+print(f'before: {input_file_path}')
 print(f'after : {file_name_after}')
     
