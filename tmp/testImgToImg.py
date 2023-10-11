@@ -30,7 +30,9 @@ random_number = random.randint(1, 1024)
 with open(file_name_before, 'wb') as input_file:
     init_image.save(input_file, format='JPEG')
 
-prompt = "tiger eye, oil painting, fantastic, black eye"
+
+with open('data/input/input_prompt.txt', "r") as input_file:
+    prompt = input_file.read()
 generator = torch.Generator(device=device).manual_seed(random_number)
 image = pipe(prompt=prompt, image=init_image, strength=0.75, guidance_scale=7.5, generator=generator).images[0]
 image
