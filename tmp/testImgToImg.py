@@ -7,8 +7,6 @@ from diffusers import StableDiffusionImg2ImgPipeline
 from datetime import datetime
 import json
 
-
-
 device = "cuda"
 pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
     "nitrosocke/Ghibli-Diffusion",
@@ -21,7 +19,7 @@ init_image
 
 current_time = datetime.now()
 current_time_str=current_time.strftime('%Y-%m-%d_%H-%M-%S')
-file_name_after = 'data/output/after/img_to_img_after_{}.jpg'.format(current_time_str)
+output_file_path = 'data/output/after/img_to_img_after_{}.jpg'.format(current_time_str)
 random_number = random.randint(1, 1024)
 
 
@@ -32,7 +30,7 @@ generator = torch.Generator(device=device).manual_seed(random_number)
 image = pipe(prompt=prompt, image=init_image, strength=0.75, guidance_scale=7.5, generator=generator).images[0]
 image
 
-with open(file_name_after, 'wb') as input_file:
+with open(output_file_path, 'wb') as input_file:
     image.save(input_file, format='JPEG')
     
 #json形式への書き出しと保存
@@ -41,7 +39,7 @@ new_data = {
     "create_time": current_time_str,
     "seed": random_number,
     "input_file": input_file_path, 
-    "output_file": file_name_after
+    "output_file": output_file_path
 }
 
 with open('data/log/log.json', 'r') as json_file:
@@ -54,5 +52,5 @@ with open('data/log/log.json', 'w') as json_file:
 #コンソール出力
 print(new_data)
 print(f'before: {input_file_path}')
-print(f'after : {file_name_after}')
+print(f'after : {output_file_path}')
     
