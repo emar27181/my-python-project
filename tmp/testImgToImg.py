@@ -39,9 +39,6 @@ image
 
 with open(file_name_after, 'wb') as input_file:
     image.save(input_file, format='JPEG')
-    print(f'before: {file_name_before}')
-    print(f'after : {file_name_after}')
-    
     
 #json形式への書き出しと保存
 new_data = {
@@ -56,4 +53,9 @@ with open('data/log/log.json', 'r') as json_file:
 
 with open('data/log/log.json', 'w') as json_file:
     json.dump(data, json_file, indent=2)
+    
+#コンソール出力
+print(new_data)
+print(f'before: {file_name_before}')
+print(f'after : {file_name_after}')
     
