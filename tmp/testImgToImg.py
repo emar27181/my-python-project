@@ -12,7 +12,9 @@ pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
     "nitrosocke/Ghibli-Diffusion",
 ).to(device)
 
-input_file_path = "data/output/before/saveCanvas - 2023-10-15T185638.294.png"
+with open('data/input/input_file_path.txt') as input_file:
+    input_file_path = input_file.read()
+ 
 init_image = Image.open(input_file_path).convert("RGB")
 init_image.thumbnail((768, 768))
 init_image
