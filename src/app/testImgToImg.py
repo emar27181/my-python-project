@@ -6,6 +6,7 @@ import random
 from diffusers import StableDiffusionImg2ImgPipeline
 from datetime import datetime
 import json
+from googletrans import Translator
 
 device = "cuda"
 pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
@@ -23,13 +24,16 @@ current_time = datetime.now()
 current_time_str=current_time.strftime('%Y-%m-%d_%H-%M-%S')
 output_file_path = 'data/output/after/img_to_img_after_{}.jpg'.format(current_time_str)
 random_number = random.randint(1, 1024)
-with open('data/input/input_prompt.txt', "r") as input_file:
-    prompt = input_file.read()
 strength_value=0.75
 guidance_scale_value=7.5
 
+with open('data/input/input_prompt.txt', "r") as input_file:
+    prompt_ja = input_file.read()
+translator = Translator()
+prompt_en = translator.translate(prompt_ja, src='ja', dest='en').text
+
 generator = torch.Generator(device=device).manual_seed(random_number)
-image = pipe(prompt=prompt, image=init_image, strength=strength_value, guidance_scale=guidance_scale_value, generator=generator).images[0]
+image = pipe(prompt=prompt_en, image=init_image, strength=strength_value, guidance_scale=guidance_scale_value, generator=generator).images[0]
 image
 
 with open(output_file_path, 'wb') as input_file:
@@ -37,7 +41,8 @@ with open(output_file_path, 'wb') as input_file:
     
 #json形式への書き出しと保存
 new_data = {
-    "prompt": prompt,
+    "prompt_ja": prompt_ja, 
+    "prompt_en": prompt_en,
     "create_time": current_time_str,
     "seed": random_number,
     "strength": strength_value,
