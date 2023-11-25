@@ -1,7 +1,8 @@
 
 # from tmp import tryEmotionAnalyzeWithGPT
 import EmotionAnalyzeWithGPT
-from EmotionAnalyzeWithGPT import analyze_emotion #新たに宣言した関数をいずれ読み込む(2023/09/24)
+# 新たに宣言した関数をいずれ読み込む(2023/09/24)
+from EmotionAnalyzeWithGPT import analyze_emotion
 import logging
 from flask_cors import CORS
 from flask import Flask, jsonify, redirect, url_for, request
@@ -35,14 +36,12 @@ def receive_data():  # データの受信
     return jsonify({"message": "Data sent successfully!(inputData: "+inputData+")"})
 
 
-
 @app.route('/api/analyze-emotion', methods=['GET', 'POST'])
 def call_analyze_emotion():
     analyze_emotion()
     with open('data/input/InputData.txt', 'r') as input_file:
         input_data = input_file.read()
     return jsonify({"message": "analeyze_emotion() was called (input: "+input_data+" )"})
-
 
 
 @app.route('/api/input-sentence-now', methods=['GET', 'POST'])
@@ -62,18 +61,13 @@ def send_data():  # データの送信
     data = {'message': outputData}
     return jsonify(data)
 
-@app.route('/api/send-color-combination-data', methods=['GET', 'POST'])
-def send_color_combination_data():  # データの送信
-    print("this is send-color-combination-data")
-    return "test return"
 
-    """
-    with open('data/output/OutputData.json', 'r') as file:
-        outputData = file.read()
-        print("outputData: ", outputData)
-    data = {'message': outputData}
+@app.route('/api/send-color-combination-data', methods=['GET', 'POST'])
+def send_color_combination_data():
+    with open('data/output/output_color_combination.json', 'r') as json_file:
+        data = json_file.read()
     return jsonify(data)
-    """
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
