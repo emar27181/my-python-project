@@ -62,6 +62,18 @@ def send_data():  # データの送信
     data = {'message': outputData}
     return jsonify(data)
 
+@app.route('/api/send-color-combination-data', methods=['GET', 'POST'])
+def send_color_combination_data():  # データの送信
+    print("this is send-color-combination-data")
+    return "test return"
+
+    """
+    with open('data/output/OutputData.json', 'r') as file:
+        outputData = file.read()
+        print("outputData: ", outputData)
+    data = {'message': outputData}
+    return jsonify(data)
+    """
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
