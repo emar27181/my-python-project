@@ -3,9 +3,10 @@ json_file_path = 'data/output/output_color_combination.json'
 
 
 def main():
-    # my_color = Color(360, 50, 50)
-    # my_color = Color(480, 150, 150)
-    my_color = Color(480, 0, 0)
+    with open(json_file_path, 'r') as json_file:
+        data = json.load(json_file)
+    my_color = Color(data[0]["hue"], data[0]["saturation"], data[0]["lightness"])
+
     generate_color_combination(my_color)
 
 
