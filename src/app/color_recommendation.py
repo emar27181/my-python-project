@@ -2,10 +2,11 @@ import json
 json_file_path = 'data/output/output_color_combination.json'
 
 
-def main():
+def color_recommendation():
     with open(json_file_path, 'r') as json_file:
         data = json.load(json_file)
-    my_color = Color(data[0]["hue"], data[0]["saturation"], data[0]["lightness"])
+    my_color = Color(data[0]["hue"], data[0]
+                     ["saturation"], data[0]["lightness"])
 
     generate_color_combination(my_color)
 
@@ -59,4 +60,4 @@ def same_hue_color_scheme(color):
 
 
 if __name__ == "__main__":
-    main()
+    color_recommendation()
