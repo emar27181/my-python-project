@@ -3,6 +3,7 @@
 import EmotionAnalyzeWithGPT
 # 新たに宣言した関数をいずれ読み込む(2023/09/24)
 from EmotionAnalyzeWithGPT import analyze_emotion
+from color_recommendation import color_recommendation
 import logging
 from flask_cors import CORS
 from flask import Flask, jsonify, redirect, url_for, request
@@ -64,6 +65,7 @@ def send_data():  # データの送信
 
 @app.route('/api/send-color-combination-data', methods=['GET', 'POST'])
 def send_color_combination_data():
+    color_recommendation()
     with open('data/output/output_color_combination.json', 'r') as json_file:
         data = json_file.read()
     return jsonify(data)
