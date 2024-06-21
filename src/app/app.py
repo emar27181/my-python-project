@@ -26,6 +26,14 @@ def index():
     # return redirect('/api/send-data')
 
 
+@app.route('/api/receive-data', methods=['GET', 'POST'])
+def receive_data():  # データの受信
+    print("receive_data() is called(受信)")
+    inputData = request.json.get('data')  # フロントエンドからデータを受信
+    print("inputData: ", inputData)
+    return jsonify({"message": "Data sent successfully!(inputData: " + inputData + ")"})
+
+
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
 
