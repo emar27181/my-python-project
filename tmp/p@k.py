@@ -2,20 +2,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
+# jsonデータの読み込み
 with open('tmp/input/precision@k.json', 'r') as file:
     data = json.load(file)
-
 precisions = data
 
-print(precisions)
+# 配列の宣言
+p_at_k_values = []
+k_values = []
 
-# サンプルデータ
-# pred_scores = [0.9, 0.85, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4]
-# true_labels = [1, 0, 1, 1, 0, 1, 0, 1, 0, 0]
+# 配列に値の代入
+for item in precisions:
+    precision = item.get('precision')
+    k = item.get('k')
 
-# p@kのデータポイント
-k_values = [4, 6, 35, 81, 133, 223, 225]
-p_at_k_values = [0.25, 0.17, 0.11, 0.06, 0.04, 0.02, 0.03]
+    p_at_k_values.append(precision)
+    k_values.append(k)
 
 
 def precision_at_k(true_labels, pred_scores, k):
@@ -38,3 +40,4 @@ plt.grid(True)
 
 # グラフをファイルに保存
 plt.savefig('/mnt/c/WSL-directory/my-NLP-project/tmp/output/precision_at_k_recommend_color_schemes.png')
+print("graph is saved")
