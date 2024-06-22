@@ -4,10 +4,11 @@ import json
 import config.constants
 
 # ファイル名を変数を使って動的に生成する
-file_name = f'tmp/input/precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}).json'
+file_name = (f'precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR})')
+file_path = (f'tmp/input/{file_name}.json')
 
 # jsonデータの読み込み
-with open(file_name, 'r') as file:
+with open(file_path, 'r') as file:
     data = json.load(file)
 precisions = data
 
@@ -43,5 +44,5 @@ plt.xticks(k_values)
 plt.grid(True)
 
 # グラフをファイルに保存
-plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}).png')
-print(f"precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}).png is saved")
+plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
+print(f"{file_name}.png is saved")
