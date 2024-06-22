@@ -1,5 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import json
+
+with open('tmp/input/precision@k.json', 'r') as file:
+    data = json.load(file)
+
+precisions = data
+
+print(precisions)
 
 # サンプルデータ
 # pred_scores = [0.9, 0.85, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4]

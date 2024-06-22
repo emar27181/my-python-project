@@ -1,0 +1,98 @@
+[
+  {
+    "precision": 0.25,
+    "k": 4
+  },
+  {
+    "precision": 0.17,
+    "k": 6
+  },
+  {
+    "precision": 0.17,
+    "k": 6
+  },
+  {
+    "precision": 0.17,
+    "k": 6
+  },
+  {
+    "precision": 0.06,
+    "k": 18
+  },
+  {
+    "precision": 0.06,
+    "k": 52
+  },
+  {
+    "precision": 0.05,
+    "k": 61
+  },
+  {
+    "precision": 0.04,
+    "k": 104
+  },
+  {
+    "precision": 0.04,
+    "k": 113
+  },
+  {
+    "precision": 0.04,
+    "k": 114
+  },
+  {
+    "precision": 0.03,
+    "k": 133
+  },
+  {
+    "precision": 0.02,
+    "k": 239
+  },
+  {
+    "precision": 0.02,
+    "k": 291
+  },
+  {
+    "precision": 0.01,
+    "k": 369
+  },
+  {
+    "precision": 0.02,
+    "k": 398
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  },
+  {
+    "precision": 0.02,
+    "k": 404
+  }
+]
