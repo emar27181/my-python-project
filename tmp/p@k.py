@@ -1,9 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+import config.constants
+
+# ファイル名を変数を使って動的に生成する
+file_name = f'tmp/input/precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}).json'
 
 # jsonデータの読み込み
-with open('tmp/input/precision@k(SAME=20).json', 'r') as file:
+with open(file_name, 'r') as file:
     data = json.load(file)
 precisions = data
 
@@ -32,12 +36,12 @@ def precision_at_k(true_labels, pred_scores, k):
 
 plt.figure(figsize=(10, 6))
 plt.plot(k_values, p_at_k_values, marker='o')
-plt.title('Precision at K')
+plt.title(f'Precision@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR})')
 plt.xlabel('K')
 plt.ylabel('Precision')
 plt.xticks(k_values)
 plt.grid(True)
 
 # グラフをファイルに保存
-plt.savefig('/mnt/c/WSL-directory/my-NLP-project/tmp/output/precision_at_k_recommend_color_schemes.png')
-print("graph is saved")
+plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}).png')
+print(f"precision@k(SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}).png is saved")
