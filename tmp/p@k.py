@@ -3,7 +3,7 @@ import numpy as np
 import json
 
 # jsonデータの読み込み
-with open('tmp/input/precision@k.json', 'r') as file:
+with open('tmp/input/precision@k(SAME=20).json', 'r') as file:
     data = json.load(file)
 precisions = data
 
