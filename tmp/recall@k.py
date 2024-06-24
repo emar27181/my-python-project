@@ -45,7 +45,7 @@ def recall_at_k(true_labels, pred_scores, k):
 
 plt.figure(figsize=(10, 6))
 plt.plot(k_values, recall_at_k_values, marker='o')
-plt.title(f'recall@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR})')
+plt.title(f'recall@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, n={config.constants.EVALUATED_ILLUST_COUNT})')
 plt.xlabel('K')
 plt.ylabel('Recall')
 plt.xticks(k_values)
@@ -57,7 +57,7 @@ print(f"./tmp/output/{file_name}.png is saved")
 
 plt.figure(figsize=(10, 6))
 plt.plot(k_values, precision_at_k_values, marker='o')
-plt.title(f'Precision@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR})')
+plt.title(f'Precision@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, n={config.constants.EVALUATED_ILLUST_COUNT})')
 plt.xlabel('K')
 plt.ylabel('Precision')
 plt.xticks(k_values)
