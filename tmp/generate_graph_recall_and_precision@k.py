@@ -17,18 +17,20 @@ recall_at_k_values = []
 precision_at_k_values = []
 k_values = []
 
-# 配列に値の代入
-for item in recalls:
-    recall = item.get('recall')
-    k = item.get('k')
 
-    if (k == 0):
-        continue
+# 引数で受け取った値を配列に挿入する関数
+def insert_values(recalls):
+    for item in recalls:
+        recall = item.get('recall')
+        k = item.get('k')
 
-    corecct_number = recall * (config.constants.EVALUATED_ILLUST_COUNT)
-    recall_at_k_values.append(recall)
-    precision_at_k_values.append(corecct_number / k)
-    k_values.append(k)
+        if (k == 0):
+            continue
+
+        corecct_number = recall * (config.constants.EVALUATED_ILLUST_COUNT)
+        recall_at_k_values.append(recall)
+        precision_at_k_values.append(corecct_number / k)
+        k_values.append(k)
 
 
 # 引数で受け取った値のグラフを作成する関数
@@ -42,6 +44,8 @@ def generate_graph(graph_name, y_values):
     plt.xticks(np.arange(0, max(k_values) + 1, 5))
     plt.grid(True)
 
+
+insert_values(recalls)
 
 # recall@kグラフの生成
 generate_graph('recall', recall_at_k_values)
