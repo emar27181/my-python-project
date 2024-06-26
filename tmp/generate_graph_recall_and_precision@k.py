@@ -26,7 +26,7 @@ def insert_values(recalls):
 
 # 引数で受け取った値のグラフを作成する関数
 def generate_graph(graph_name, y_values, SAME, TIME):
-    plt.plot(k_values, y_values, marker='o')
+    plt.plot(k_values, y_values, marker='o', color='red')
     plt.title(f'{graph_name}@k (SAME={SAME}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
     plt.xlabel('K')
@@ -50,40 +50,29 @@ def main():
     SAME = 15
     TIME = [0, 1]
 
-    # ファイル名を変数を使って動的に生成する
-    """
-    file_name = (f'recall@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
-    file_path = (f'tmp/input/{file_name}.json')
-
-    # jsonデータの読み込み
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    recalls = data
-    """
-
-    plt.figure(figsize=(10, 6))
-    recalls = return_data(SAME, TIME)
-
-    insert_values(recalls)
-
     # recall@kグラフの生成
-    generate_graph('recall', recall_at_k_values, SAME, TIME)
+    plt.figure(figsize=(10, 6))  # グラフの初期化
+    for SAME in range(5, 21, 5):
+        # ファイルデータの取得
+        recalls = return_data(SAME, TIME)
+
+        # 配列のデータの更新
+        insert_values(recalls)
+        generate_graph('recall', recall_at_k_values, SAME, TIME)
 
     # グラフの保存
     file_name = (f'recall@k_SAME={SAME}_EVAL={TIME}')
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
     print(f"./tmp/output/{file_name}.png is saved")
 
-    plt.figure(figsize=(10, 6))
-
     # precision@kグラフの作成
+    plt.figure(figsize=(10, 6))
     generate_graph('precision', precision_at_k_values, SAME, TIME)
-
     # グラフをファイルに保存
-    precision_file_name = (f'precision@k_SAME={SAME}_EVAL={TIME}')
+    file_name = (f'precision@k_SAME={SAME}_EVAL={TIME}')
     # precision_file_name = (f'precision@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
-    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{precision_file_name}.png')
-    print(f"./tmp/output/{precision_file_name}.png is saved")
+    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
+    print(f"./tmp/output/{file_name}.png is saved")
 
 
 if __name__ == "__main__":
