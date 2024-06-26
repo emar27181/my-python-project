@@ -45,20 +45,24 @@ def generate_graph(graph_name, y_values):
     plt.grid(True)
 
 
-insert_values(recalls)
+def main():
+    insert_values(recalls)
 
-# recall@kグラフの生成
-generate_graph('recall', recall_at_k_values)
+    # recall@kグラフの生成
+    generate_graph('recall', recall_at_k_values)
 
-# グラフの保存
-plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
-print(f"./tmp/output/{file_name}.png is saved")
+    # グラフの保存
+    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
+    print(f"./tmp/output/{file_name}.png is saved")
+
+    # precision@kグラフの作成
+    generate_graph('precision', precision_at_k_values)
+
+    # グラフをファイルに保存
+    precision_file_name = (f'precision@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
+    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{precision_file_name}.png')
+    print(f"./tmp/output/{precision_file_name}.png is saved")
 
 
-# precision@kグラフの作成
-generate_graph('precision', precision_at_k_values)
-
-# グラフをファイルに保存
-file_name = (f'precision@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
-plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
-print(f"./tmp/output/{file_name}.png is saved")
+if __name__ == "__main__":
+    main()
