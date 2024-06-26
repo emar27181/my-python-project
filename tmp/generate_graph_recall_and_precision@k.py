@@ -3,15 +3,6 @@ import numpy as np
 import json
 import config.constants
 
-# ファイル名を変数を使って動的に生成する
-file_name = (f'recall@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
-file_path = (f'tmp/input/{file_name}.json')
-
-# jsonデータの読み込み
-with open(file_path, 'r') as file:
-    data = json.load(file)
-recalls = data
-
 # 配列の宣言
 recall_at_k_values = []
 precision_at_k_values = []
@@ -46,6 +37,15 @@ def generate_graph(graph_name, y_values):
 
 
 def main():
+    # ファイル名を変数を使って動的に生成する
+    file_name = (f'recall@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
+    file_path = (f'tmp/input/{file_name}.json')
+
+    # jsonデータの読み込み
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+    recalls = data
+
     insert_values(recalls)
 
     # recall@kグラフの生成
