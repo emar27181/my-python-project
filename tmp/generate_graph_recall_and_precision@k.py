@@ -43,6 +43,19 @@ def recall_at_k(true_labels, pred_scores, k):
 # print(precision_at_k_values)
 # print(recall_at_k_values)
 
+
+def generate_graph():
+    plt.figure(figsize=(10, 6))
+    plt.plot(k_values, recall_at_k_values, marker='o')
+    plt.title(f'Recall@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.ylim(0, 1)
+    plt.xlabel('K')
+    plt.ylabel('Recall')
+    plt.xticks(np.arange(0, max(k_values) + 1, 5))
+    plt.grid(True)
+
+
+"""
 plt.figure(figsize=(10, 6))
 plt.plot(k_values, recall_at_k_values, marker='o')
 plt.title(f'Recall@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR},n={config.constants.EVALUATED_ILLUST_COUNT})')
@@ -51,8 +64,13 @@ plt.xlabel('K')
 plt.ylabel('Recall')
 plt.xticks(np.arange(0, max(k_values) + 1, 5))
 plt.grid(True)
+"""
 
-# グラフをファイルに保存
+
+# グラフの生成
+generate_graph()
+
+# グラフの保存
 plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
 print(f"./tmp/output/{file_name}.png is saved")
 
