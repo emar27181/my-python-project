@@ -31,13 +31,6 @@ for item in recalls:
     k_values.append(k)
 
 
-def recall_at_k(true_labels, pred_scores, k):
-    sorted_indices = np.argsort(pred_scores)[::-1]
-    sorted_labels = np.array(true_labels)[sorted_indices]
-    relevant_at_k = sorted_labels[:k].sum()
-    return relevant_at_k / k
-
-
 # 引数で受け取った値のグラフを作成する関数
 def generate_graph(graph_name, y_values):
     plt.figure(figsize=(10, 6))
