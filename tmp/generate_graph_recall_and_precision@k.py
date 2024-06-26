@@ -38,11 +38,6 @@ def recall_at_k(true_labels, pred_scores, k):
     return relevant_at_k / k
 
 
-# k_values = range(1, len(pred_scores) + 1)
-# p_at_k_values = [recall_at_k(true_labels, pred_scores, k) for k in k_values]
-# print(precision_at_k_values)
-# print(recall_at_k_values)
-
 # 引数で受け取った値のグラフを作成する関数
 def generate_graph(graph_name, y_values):
     plt.figure(figsize=(10, 6))
