@@ -43,45 +43,28 @@ def recall_at_k(true_labels, pred_scores, k):
 # print(precision_at_k_values)
 # print(recall_at_k_values)
 
-
-def generate_graph():
+# 引数で受け取った値のグラフを作成する関数
+def generate_graph(graph_name, y_values):
     plt.figure(figsize=(10, 6))
-    plt.plot(k_values, recall_at_k_values, marker='o')
-    plt.title(f'Recall@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.plot(k_values, y_values, marker='o')
+    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
     plt.xlabel('K')
-    plt.ylabel('Recall')
+    plt.ylabel(f'{graph_name}')
     plt.xticks(np.arange(0, max(k_values) + 1, 5))
     plt.grid(True)
 
 
-"""
-plt.figure(figsize=(10, 6))
-plt.plot(k_values, recall_at_k_values, marker='o')
-plt.title(f'Recall@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR},n={config.constants.EVALUATED_ILLUST_COUNT})')
-plt.ylim(0, 1)
-plt.xlabel('K')
-plt.ylabel('Recall')
-plt.xticks(np.arange(0, max(k_values) + 1, 5))
-plt.grid(True)
-"""
-
-
-# グラフの生成
-generate_graph()
+# recall@kグラフの生成
+generate_graph('recall', recall_at_k_values)
 
 # グラフの保存
 plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
 print(f"./tmp/output/{file_name}.png is saved")
 
-plt.figure(figsize=(10, 6))
-plt.plot(k_values, precision_at_k_values, marker='o')
-plt.title(f'Precision@k (SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}, EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}, n={config.constants.EVALUATED_ILLUST_COUNT})')
-plt.ylim(0, 1)
-plt.xlabel('K')
-plt.ylabel('Precision')
-plt.xticks(np.arange(0, max(k_values) + 1, 5))
-plt.grid(True)
+
+# precision@kグラフの作成
+generate_graph('precision', precision_at_k_values)
 
 # グラフをファイルに保存
 file_name = (f'precision@k_SAME={config.constants.SIM_VALUE_IS_SAME_COLOR}_EVAL={config.constants.IS_EVALUATED_TIMING_DRAW_COLOR}')
