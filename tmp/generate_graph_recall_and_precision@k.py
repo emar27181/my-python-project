@@ -28,14 +28,15 @@ def insert_values(recalls):
 # 引数で受け取った値のグラフを作成する関数
 
 
-def generate_graph(graph_name, k_values, y_values, SAME, TIME, color):
-    plt.plot(k_values, y_values, marker='o', color=color)
+def generate_graph(graph_name, k_values, y_values, SAME, TIME, color, label):
+    plt.plot(k_values, y_values, marker='o', color=color, label=label)
     plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
     plt.xlabel('K')
     plt.ylabel(graph_name)
     plt.xticks(np.arange(0, max(k_values) + 1, 5))
     plt.grid(True)
+    plt.legend()
 
 
 def return_data(SAME, TIME):
@@ -61,7 +62,8 @@ def main():
         # 配列のデータの更新
         recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
         color = colors[idx % len(colors)]
-        generate_graph('recall', k_values, recall_at_k_values, SAME, TIME, color)
+        label = f'SAME={SAME}'
+        generate_graph('recall', k_values, recall_at_k_values, SAME, TIME, color, label)
 
     # グラフの保存
     file_name = f'recall@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_EVAL={TIME}'
@@ -77,7 +79,8 @@ def main():
         # 配列のデータの更新
         recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
         color = colors[idx % len(colors)]
-        generate_graph('precision', k_values, precision_at_k_values, SAME, TIME, color)
+        label = f'SAME={SAME}'
+        generate_graph('precision', k_values, precision_at_k_values, SAME, TIME, color, label)
 
     # グラフをファイルに保存
     file_name = f'precision@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_EVAL={TIME}'
