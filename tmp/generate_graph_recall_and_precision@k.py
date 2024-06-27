@@ -30,7 +30,7 @@ def insert_values(recalls):
 
 def generate_graph(graph_name, k_values, y_values, SAME, TIME, color):
     plt.plot(k_values, y_values, marker='o', color=color)
-    plt.title(f'{graph_name}@k (SAME={SAME}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
     plt.xlabel('K')
     plt.ylabel(graph_name)
@@ -54,7 +54,7 @@ def main():
 
     # recall@kグラフの生成
     plt.figure(figsize=(10, 6))  # グラフの初期化
-    for idx, SAME in enumerate(range(5, 21, 5)):
+    for idx, SAME in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
         # ファイルデータの取得
         recalls = return_data(SAME, TIME)
 
@@ -64,13 +64,13 @@ def main():
         generate_graph('recall', k_values, recall_at_k_values, SAME, TIME, color)
 
     # グラフの保存
-    file_name = f'recall@k_SAME={SAME}_EVAL={TIME}'
+    file_name = f'recall@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_EVAL={TIME}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
     print(f"./tmp/output/{file_name}.png is saved")
 
     # precision@kグラフの作成
     plt.figure(figsize=(10, 6))
-    for idx, SAME in enumerate(range(5, 21, 5)):
+    for idx, SAME in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
         # ファイルデータの取得
         recalls = return_data(SAME, TIME)
 
@@ -80,7 +80,7 @@ def main():
         generate_graph('precision', k_values, precision_at_k_values, SAME, TIME, color)
 
     # グラフをファイルに保存
-    file_name = f'precision@k_SAME={SAME}_EVAL={TIME}'
+    file_name = f'precision@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_EVAL={TIME}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
     print(f"./tmp/output/{file_name}.png is saved")
 
