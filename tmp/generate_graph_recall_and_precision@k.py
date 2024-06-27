@@ -32,7 +32,7 @@ def generate_graph(graph_name, k_values, y_values, SAME, TIME, color, label):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
     plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
-    plt.xlabel('K')
+    plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
     plt.xticks(np.arange(0, max(k_values) + 1, 5))
     plt.grid(True)
