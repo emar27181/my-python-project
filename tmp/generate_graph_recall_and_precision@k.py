@@ -49,11 +49,39 @@ def return_data(SAME, TIME):
     return data
 
 
-def main():
+def load_file_and_generate_graph(graph_type):
+
     TIME = [0, 1]
     colors = ['blue', 'green', 'red', 'purple']
 
+    plt.figure(figsize=(10, 6))  # グラフの初期化
+    for idx, SAME in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
+        # ファイルデータの取得
+        recalls = return_data(SAME, TIME)
+
+        # 配列のデータの更新
+        recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
+        color = colors[idx % len(colors)]
+        label = f'SAME={SAME}'
+
+        if (graph_type == 'recall'):
+            generate_graph('recall', k_values, recall_at_k_values, SAME, TIME, color, label)
+        elif (graph_type == 'precision'):
+            generate_graph('precision', k_values, recall_at_k_values, SAME, TIME, color, label)
+
+    # 対応するグラフの保存
+    file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_EVAL={TIME}'
+    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
+    print(f"./tmp/output/{file_name}.png is saved")
+
+
+def main():
+
+    load_file_and_generate_graph('recall')
+    load_file_and_generate_graph('precision')
+
     # recall@kグラフの生成
+    """
     plt.figure(figsize=(10, 6))  # グラフの初期化
     for idx, SAME in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
         # ファイルデータの取得
@@ -86,6 +114,7 @@ def main():
     file_name = f'precision@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_EVAL={TIME}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
     print(f"./tmp/output/{file_name}.png is saved")
+    """
 
 
 if __name__ == "__main__":
