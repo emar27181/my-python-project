@@ -49,6 +49,7 @@ def return_data(same, timing):
 
         # jsonデータの読み込み
         with open(file_path, 'r') as file:
+            print(f'./{file_path}が読み込まれました．')
             data = json.load(file)
         return data
     # ファイルが存在しなかった場合
@@ -100,7 +101,7 @@ def load_file_and_generate_graph(graph_type):
     # 対応するグラフの保存
     file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={TIME_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
-    print(f"./tmp/output/{file_name}.png is saved")
+    print(f"./tmp/output/{file_name}.png が保存されました．\n")
 
 
 def main():
