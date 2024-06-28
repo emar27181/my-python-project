@@ -28,9 +28,9 @@ def insert_values(recalls):
 # 引数で受け取った値のグラフを作成する関数
 
 
-def plot_graph(graph_name, k_values, y_values, SAME, TIME, color, label):
+def plot_graph(graph_name, k_values, y_values, SAME, timing, color, label):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
-    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
     plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
@@ -39,8 +39,8 @@ def plot_graph(graph_name, k_values, y_values, SAME, TIME, color, label):
     plt.legend()
 
 
-def return_data(SAME, TIME):
-    file_name = f'recall@k_SAME={SAME}_EVAL={TIME}'
+def return_data(SAME, timing):
+    file_name = f'recall@k_SAME={SAME}_EVAL={timing}'
     file_path = f'tmp/input/{file_name}.json'
 
     # jsonデータの読み込み
@@ -50,9 +50,9 @@ def return_data(SAME, TIME):
 
 
 # 引数で受け取った閾値のデータを読み込んでグラフを生成する関数
-def generate_graph(graph_type, label, color, SAME, TIME, TIME_LIST):
+def generate_graph(graph_type, label, color, SAME, timing, TIME_LIST):
     # ファイルデータの取得
-    recalls = return_data(SAME, TIME)
+    recalls = return_data(SAME, timing)
 
     # 配列のデータの更新
     recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
@@ -75,13 +75,13 @@ def load_file_and_generate_graph(graph_type):
 
     plt.figure(figsize=(10, 6))  # グラフの初期化
 
-    for TIME in TIME_LIST:
+    for timing in TIME_LIST:
         color = colors[i % len(colors)]
-        label = f'TIME={TIME}'
+        label = f'timing={timing}'
         i += 1
 
         for idx, SAME in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
-            generate_graph(graph_type, label, color, SAME, TIME, TIME_LIST)
+            generate_graph(graph_type, label, color, SAME, timing, TIME_LIST)
 
     # 対応するグラフの保存
     file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={TIME_LIST}'
