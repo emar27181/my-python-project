@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import json
 import config.constants
@@ -43,14 +44,27 @@ def return_data(same, timing):
     file_name = f'recall@k_SAME={same}_EVAL={timing}'
     file_path = f'tmp/input/{file_name}.json'
 
-    # jsonデータの読み込み
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return data
+    # ファイルが正しく読み込めた場合
+    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+
+        # jsonデータの読み込み
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        return data
+    # ファイルが存在しなかった場合
+    else:
+        print(f'./{file_path}は存在しませんでした．')
+        return []
 
 
 # 引数で受け取った閾値のデータを読み込んでグラフを生成する関数
 def generate_graph(graph_type, label, color, same, timing, TIME_LIST):
+
+    data = return_data(same, timing)
+
+    if (data == []):
+        return
+
     # ファイルデータの取得
     recalls = return_data(same, timing)
 
