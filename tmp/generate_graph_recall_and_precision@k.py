@@ -49,6 +49,24 @@ def return_data(SAME, TIME):
     return data
 
 
+# 引数で受け取った閾値のデータを読み込んでグラフを生成する関数
+def generate_graph(graph_type, label, color, SAME, TIME, TIME_LIST):
+    # ファイルデータの取得
+    recalls = return_data(SAME, TIME)
+
+    # 配列のデータの更新
+    recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
+    # color = colors[idx % len(colors)]
+    # label = f'SAME={SAME}'
+
+    if (graph_type == 'recall'):
+        plot_graph('recall', k_values, recall_at_k_values, SAME, TIME_LIST, color, label)
+    elif (graph_type == 'precision'):
+        plot_graph('precision', k_values, precision_at_k_values, SAME, TIME_LIST, color, label)
+    else:
+        print('Invalid graph type')
+
+
 def load_file_and_generate_graph(graph_type):
 
     TIME_LIST = [[0], [1], [0, 1]]
@@ -63,20 +81,7 @@ def load_file_and_generate_graph(graph_type):
         i += 1
 
         for idx, SAME in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
-            # ファイルデータの取得
-            recalls = return_data(SAME, TIME)
-
-            # 配列のデータの更新
-            recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
-            # color = colors[idx % len(colors)]
-            # label = f'SAME={SAME}'
-
-            if (graph_type == 'recall'):
-                plot_graph('recall', k_values, recall_at_k_values, SAME, TIME_LIST, color, label)
-            elif (graph_type == 'precision'):
-                plot_graph('precision', k_values, precision_at_k_values, SAME, TIME_LIST, color, label)
-            else:
-                print('Invalid graph type')
+            generate_graph(graph_type, label, color, SAME, TIME, TIME_LIST)
 
     # 対応するグラフの保存
     file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={TIME_LIST}'
