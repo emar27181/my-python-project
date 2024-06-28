@@ -28,7 +28,7 @@ def insert_values(recalls):
 # 引数で受け取った値のグラフを作成する関数
 
 
-def generate_graph(graph_name, k_values, y_values, SAME, TIME, color, label):
+def plot_graph(graph_name, k_values, y_values, SAME, TIME, color, label):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
     plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={TIME},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, 1)
@@ -72,9 +72,9 @@ def load_file_and_generate_graph(graph_type):
             # label = f'SAME={SAME}'
 
             if (graph_type == 'recall'):
-                generate_graph('recall', k_values, recall_at_k_values, SAME, TIME_LIST, color, label)
+                plot_graph('recall', k_values, recall_at_k_values, SAME, TIME_LIST, color, label)
             elif (graph_type == 'precision'):
-                generate_graph('precision', k_values, precision_at_k_values, SAME, TIME_LIST, color, label)
+                plot_graph('precision', k_values, precision_at_k_values, SAME, TIME_LIST, color, label)
             else:
                 print('Invalid graph type')
 
