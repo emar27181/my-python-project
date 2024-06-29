@@ -32,10 +32,10 @@ def insert_values(recalls):
 # 引数で受け取った値のグラフを作成する関数
 
 
-def plot_graph(graph_name, k_values, y_values, same, timing, color, label):
+def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_limit):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
     plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
-    plt.ylim(0, 1)
+    plt.ylim(0, y_limit)
     plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
     plt.xticks(np.arange(0, max(k_values) + 1, 5))
@@ -76,11 +76,11 @@ def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
     recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values = insert_values(recalls)
 
     if (graph_type == 'recall'):
-        plot_graph('recall', k_values, recall_at_k_values, same, TIME_LIST, color, label)
+        plot_graph('recall', k_values, recall_at_k_values, same, TIME_LIST, color, label, 1)
     elif (graph_type == 'precision'):
-        plot_graph('precision', k_values, precision_at_k_values, same, TIME_LIST, color, label)
+        plot_graph('precision', k_values, precision_at_k_values, same, TIME_LIST, color, label, 1)
     elif (graph_type == 'color_count'):
-        plot_graph('color_count', k_values, color_count_at_k_values, same, TIME_LIST, color, label)
+        plot_graph('color_count', k_values, color_count_at_k_values, same, TIME_LIST, color, label, 5)
     else:
         print('Invalid graph type')
 
@@ -127,7 +127,7 @@ def load_file_and_generate_graph(graph_type):
 def main():
 
     # recall@kのグラフの作成
-    # load_file_and_generate_graph('recall')
+    load_file_and_generate_graph('recall')
     # precision@kのグラフの作成
     load_file_and_generate_graph('precision')
     # color_count@kのグラフの作成
