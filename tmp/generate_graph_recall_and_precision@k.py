@@ -10,10 +10,12 @@ import config.constants
 def insert_values(recalls):
     recall_at_k_values = []
     precision_at_k_values = []
+    color_count_at_k_values = []
     k_values = []
 
     for item in recalls:
         recall = item.get('recall')
+        color_count = item.get('colorCountAve')
         k = item.get('k')
 
         if k == 0:
@@ -21,10 +23,11 @@ def insert_values(recalls):
 
         correct_number = recall * config.constants.EVALUATED_ILLUST_COUNT
         recall_at_k_values.append(recall)
+        color_count_at_k_values.append(color_count)
         precision_at_k_values.append(correct_number / k)
         k_values.append(k)
 
-    return recall_at_k_values, precision_at_k_values, k_values
+    return recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values
 
 # 引数で受け取った値のグラフを作成する関数
 
@@ -70,12 +73,14 @@ def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
     recalls = return_data(same, timing, lightness)
 
     # 配列のデータの更新
-    recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
+    recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values = insert_values(recalls)
 
     if (graph_type == 'recall'):
         plot_graph('recall', k_values, recall_at_k_values, same, TIME_LIST, color, label)
     elif (graph_type == 'precision'):
         plot_graph('precision', k_values, precision_at_k_values, same, TIME_LIST, color, label)
+    elif (graph_type == 'color_count'):
+        plot_graph('color_count', k_values, color_count_at_k_values, same, TIME_LIST, color, label)
     else:
         print('Invalid graph type')
 
@@ -122,9 +127,11 @@ def load_file_and_generate_graph(graph_type):
 def main():
 
     # recall@kのグラフの作成
-    load_file_and_generate_graph('recall')
+    # load_file_and_generate_graph('recall')
     # precision@kのグラフの作成
     load_file_and_generate_graph('precision')
+    # color_count@kのグラフの作成
+    load_file_and_generate_graph('color_count')
 
 
 if __name__ == "__main__":
