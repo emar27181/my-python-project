@@ -40,8 +40,8 @@ def plot_graph(graph_name, k_values, y_values, same, timing, color, label):
     plt.legend()
 
 
-def return_data(same, timing):
-    file_name = f'recall@k_SAME={same}_EVAL={timing}'
+def return_data(same, timing, lightness):
+    file_name = f'recall@k_SAME={same}_EVAL={timing}_LIGHT={lightness}'
     file_path = f'tmp/input/{file_name}.json'
 
     # ファイルが正しく読み込めた場合
@@ -59,15 +59,15 @@ def return_data(same, timing):
 
 
 # 引数で受け取った閾値のデータを読み込んでグラフを生成する関数
-def generate_graph(graph_type, label, color, same, timing, TIME_LIST):
+def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST):
 
-    data = return_data(same, timing)
+    data = return_data(same, timing, lightness)
 
     if (data == []):
         return
 
     # ファイルデータの取得
-    recalls = return_data(same, timing)
+    recalls = return_data(same, timing, lightness)
 
     # 配列のデータの更新
     recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
@@ -84,22 +84,25 @@ def generate_graph(graph_type, label, color, same, timing, TIME_LIST):
 
 def load_file_and_generate_graph(graph_type):
 
-    TIME_LIST = [[0], [1], [0, 1]]
+    TIME_LIST = [[1]]
     colors = ['blue', 'green', 'red', 'purple']
     i = 0
 
     plt.figure(figsize=(10, 6))  # グラフの初期化
 
-    for timing in TIME_LIST:
-        color = colors[i % len(colors)]
-        label = f'timing={timing}'
+    for lightness in config.constants.LIGHTNESS_LIST:
+        label = f'lightness={lightness}'
         i += 1
+        for timing in TIME_LIST:
+            color = colors[i % len(colors)]
+            # label = f'timing={timing}'
+            # i += 1
 
-        for idx, same in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
-            generate_graph(graph_type, label, color, same, timing, TIME_LIST)
+            for idx, same in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
+                generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
 
     # 対応するグラフの保存
-    file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={TIME_LIST}'
+    file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
     print(f"./tmp/output/{file_name}.png が保存されました．\n")
 
