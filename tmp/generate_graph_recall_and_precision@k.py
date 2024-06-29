@@ -71,8 +71,6 @@ def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
 
     # 配列のデータの更新
     recall_at_k_values, precision_at_k_values, k_values = insert_values(recalls)
-    # color = colors[idx % len(colors)]
-    # label = f'SAME={same}'
 
     if (graph_type == 'recall'):
         plot_graph('recall', k_values, recall_at_k_values, same, TIME_LIST, color, label)
@@ -89,15 +87,30 @@ def load_file_and_generate_graph(graph_type):
 
     plt.figure(figsize=(10, 6))  # グラフの初期化
 
+    # 明度のバリエーションによる精度の違いのプロット
     for lightness in config.constants.LIGHTNESS_LIST:
-        label = f'lightness={lightness}'
-        i += 1
-        for timing in config.constants.TIME_LIST:
+        # ラベルを明度の違いに設定
+        if (config.constants.EVALUATED_PARAMETER == 'LIGHT'):
             color = colors[i % len(colors)]
-            # label = f'timing={timing}'
-            # i += 1
+            label = f'lightness={lightness}'
+            i += 1
 
+        # タイミングの違いによる精度の違いのプロット
+        for timing in config.constants.TIME_LIST:
+            # ラベルをタイミングの違いに設定
+            if (config.constants.EVALUATED_PARAMETER == 'TIME'):
+                color = colors[i % len(colors)]
+                label = f'timing={timing}'
+                i += 1
+
+            # 同一色判定の閾値の違いによる精度の違いのプロット
             for idx, same in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
+                # ラベルを同一色判定の閾値に設定
+                if (config.constants.EVALUATED_PARAMETER == 'SAME'):
+                    color = colors[i % len(colors)]
+                    label = f'SAME={same}'
+                    i += 1
+
                 generate_graph(graph_type, label, color, same, timing, lightness, config.constants.TIME_LIST)
 
     # 対応するグラフの保存
