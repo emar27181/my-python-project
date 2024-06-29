@@ -84,7 +84,6 @@ def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
 
 def load_file_and_generate_graph(graph_type):
 
-    TIME_LIST = [[1]]
     colors = ['blue', 'green', 'red', 'purple']
     i = 0
 
@@ -93,16 +92,16 @@ def load_file_and_generate_graph(graph_type):
     for lightness in config.constants.LIGHTNESS_LIST:
         label = f'lightness={lightness}'
         i += 1
-        for timing in TIME_LIST:
+        for timing in config.constants.TIME_LIST:
             color = colors[i % len(colors)]
             # label = f'timing={timing}'
             # i += 1
 
             for idx, same in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
-                generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
+                generate_graph(graph_type, label, color, same, timing, lightness, config.constants.TIME_LIST)
 
     # 対応するグラフの保存
-    file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
+    file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={config.constants.TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
     print(f"./tmp/output/{file_name}.png が保存されました．\n")
 
