@@ -20,7 +20,8 @@ def estimate_used_color_scheme():
 
     # カラーコードと出現回数を表示
     for color, count in color_counter.most_common():
-        print(f'Color: {color}, Count: {count}')
+        if (count >= 10000):
+            print(f'Color:  {color}, Count: {count}')
 
 
 def main():
