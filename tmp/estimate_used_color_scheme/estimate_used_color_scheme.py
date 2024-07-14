@@ -21,7 +21,11 @@ def estimate_used_color_scheme():
     # カラーコードと出現回数を表示
     for color, count in color_counter.most_common():
         if (count >= 10000):
-            print(f'Color:  {color}, Count: {count}')
+            print(f'Color:  {rgb_to_hex(color)}, Count: {count}')
+
+
+def rgb_to_hex(rgb):
+    return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
 
 
 def main():
