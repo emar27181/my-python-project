@@ -21,11 +21,21 @@ def estimate_used_color_scheme():
     # カラーコードと出現回数を表示
     for color, count in color_counter.most_common():
         if (count >= 10000):
-            print(f'Color:  {rgb_to_hex(color)}, Count: {count}')
+            print_colored_text("■■■■■■■■■■■■", color)
+            print(f'Color: {rgb_to_hex(color)}, Count: {count}')
+            print("")
 
 
 def rgb_to_hex(rgb):
     return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+
+
+def print_colored_text(text, rgb):
+    # RGBから16進数カラーコードに変換
+    hex_color = '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+
+    # ANSIエスケープシーケンスを使って色を設定
+    print(f"\033[38;2;{rgb[0]};{rgb[1]};{rgb[2]}m{text}\033[0m")
 
 
 def main():
