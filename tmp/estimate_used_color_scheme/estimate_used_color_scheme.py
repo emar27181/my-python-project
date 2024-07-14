@@ -18,14 +18,21 @@ def estimate_used_color_scheme():
     # カラーコードとその出現回数をカウント
     color_counter = Counter(pixels)
 
+    used_color_schemes = []  # 使用した配色を保存する変数の初期化
+
     # カラーコードと出現回数を表示
     for color, count in color_counter.most_common():
         hsl = rgb_to_hsl(color)
         saturation = hsl[1]
-        if ((count >= 10000) & (saturation >= 30)):
+
+        if (count >= 10000):
+            # if ((count >= 10000) & (saturation >= 30)):
+            used_color_schemes.append([color, count])
             print_colored_text("■■■■■■■■■■■■", color)
             print(f'ColorCode: {rgb_to_hex(color)}, HSL: {rgb_to_hsl(color)}, Count: {count}')
             print("")
+
+    print(f'used_color_scheme: {used_color_schemes}')
 
 
 def rgb_to_hex(rgb):
