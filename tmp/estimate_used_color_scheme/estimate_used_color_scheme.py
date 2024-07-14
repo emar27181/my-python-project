@@ -2,6 +2,7 @@
 
 from PIL import Image
 from collections import Counter
+from calculate_color_difference import color_difference_delta_e
 
 
 # 画像を読み込む
@@ -84,6 +85,8 @@ def print_colored_text(text, rgb):
 
 def main():
     estimate_used_color_scheme()
+    print(f'ΔEの色差: {color_difference_delta_e((243, 243, 243), (255, 255, 255))}')
+    print(f'ΔEの色差: {color_difference_delta_e((157, 190, 209), (144, 181, 200))}')
 
 
 if __name__ == "__main__":
