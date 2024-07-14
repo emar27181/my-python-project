@@ -20,14 +20,51 @@ def estimate_used_color_scheme():
 
     # カラーコードと出現回数を表示
     for color, count in color_counter.most_common():
-        if (count >= 10000):
+        hsl = rgb_to_hsl(color)
+        saturation = hsl[1]
+        if ((count >= 10000) & (saturation >= 30)):
             print_colored_text("■■■■■■■■■■■■", color)
-            print(f'Color: {rgb_to_hex(color)}, Count: {count}')
+            print(f'ColorCode: {rgb_to_hex(color)}, HSL: {rgb_to_hsl(color)}, Count: {count}')
             print("")
 
 
 def rgb_to_hex(rgb):
     return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+
+
+def rgb_to_hsl(rgb):
+    r = rgb[0]
+    g = rgb[1]
+    b = rgb[2]
+
+    r /= 255.0
+    g /= 255.0
+    b /= 255.0
+
+    max_val = max(r, g, b)
+    min_val = min(r, g, b)
+    delta = max_val - min_val
+
+    # 輝度の計算
+    l = (max_val + min_val) / 2.0
+
+    # 彩度の計算
+    if delta == 0:
+        s = 0.0
+    else:
+        s = delta / (1 - abs(2 * l - 1))
+
+    # 色相の計算
+    if delta == 0:
+        h = 0.0
+    elif max_val == r:
+        h = 60 * (((g - b) / delta) % 6)
+    elif max_val == g:
+        h = 60 * (((b - r) / delta) + 2)
+    elif max_val == b:
+        h = 60 * (((r - g) / delta) + 4)
+
+    return (round(h), round(100 * s), round(100 * l))
 
 
 def print_colored_text(text, rgb):
