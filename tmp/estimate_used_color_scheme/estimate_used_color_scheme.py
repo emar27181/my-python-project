@@ -29,7 +29,7 @@ def estimate_used_color_scheme():
             # if ((count >= 10000) & (saturation >= 30)):
             used_color_schemes.append([color, count])
             print_colored_text("■■■■■■■■■■■■", color)
-            print(f'ColorCode: {rgb_to_hex(color)}, HSL: {rgb_to_hsl(color)}, Count: {count}')
+            print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
             print("")
 
     print(f'used_color_scheme: {used_color_schemes}')
