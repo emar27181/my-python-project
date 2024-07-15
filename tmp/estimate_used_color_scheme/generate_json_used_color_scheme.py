@@ -15,14 +15,16 @@ def generate_json_used_color_scheme(image_path):
         hex = rgb_to_hex(color_scheme[0].tolist())
         color_dict = {
             "color": hex,  # NumPy配列をリストに変換
-            "rate": round(10 * color_scheme[1]) / 1000
+            "rate": round(10 * color_scheme[1]) / 1000,
+            "amount": -1
         }
         json_data.append(color_dict)
 
     first_element = {
         "illustName": image_path,
         "color": json_data[0]["color"],
-        "rate": json_data[0]["rate"]
+        "rate": json_data[0]["rate"],
+        "amount": -1
     }
 
     json_data = [first_element] + json_data[1:]
