@@ -9,10 +9,10 @@ import config.constants
 
 # 読み込まれた画像の使用配色を推定する関数
 def estimate_used_color_scheme(image_path):
-    # image_path = 'tmp/estimate_used_color_scheme/data/input/NCG290-1920x1200.jpg'  # 画像のパスを指定
-    # image_path = 'tmp/estimate_used_color_scheme/data/input/NCG260-2000x1200.jpg'  # 画像のパスを指定
-    # image_path = 'tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg'  # 画像のパスを指定
     image = Image.open(image_path)
+
+    width, height = image.size
+    pixel_count = width * height
 
     print("\n")
     print(f"loading {image_path}")
@@ -30,27 +30,33 @@ def estimate_used_color_scheme(image_path):
 
         if (count >= 10000):
             # if ((count >= 10000) & (saturation >= 30)):
-            used_color_schemes.append([color, count])
+            rate = (100 * count / pixel_count)
+            used_color_schemes.append([color, rate])
+
+            # print(f"used_color_schemes = {used_color_schemes}")
+            # used_color_schemes.append([color, count])
 
             if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
                 print_colored_text("■■■■■■■■■■■■", color)
-                print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
+                # print(f'Rate: {round(100*count/pixel_count)}%, Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
+                print(f'Rate: {round(10*rate)/10}%, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
     # print(f'used_color_scheme: {used_color_schemes}') # 確認用出力
 
     # 配色の中で同じ色を結合して保存
     merged_used_color_schemes = merge_similar_color(used_color_schemes, 5)
 
-    print(f"merged_used_color_schemes = {merged_used_color_schemes}")  # 確認用出力
+    # print(f"merged_used_color_schemes = {merged_used_color_schemes}")  # 確認用出力
 
     # 出現回数が多い順でソート([i][1] の要素で降順にソート)
     merged_used_color_schemes = sorted(merged_used_color_schemes, key=lambda x: x[1], reverse=True)
 
     if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
         print("------ ↓ ------")
-    for color, count in merged_used_color_schemes:
+    for color, rate in merged_used_color_schemes:
         print_colored_text("■■■■■■■■■■■■", color)
-        print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
+        # print(f'Rate: {round(100*count/pixel_count)}%, Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
+        print(f'Rate: {round(10*rate)/10}%, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
     return merged_used_color_schemes
 

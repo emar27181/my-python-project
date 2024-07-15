@@ -13,7 +13,7 @@ def generate_json_used_color_scheme(image_path):
     for color_scheme in used_color_schemes:
         color_dict = {
             "color": color_scheme[0].tolist(),  # NumPy配列をリストに変換
-            "amount": color_scheme[1]
+            "rate": color_scheme[1]
         }
         json_data.append(color_dict)
 
