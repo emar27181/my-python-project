@@ -7,6 +7,7 @@ from utils.color_utils import hex_to_rgb
 
 def estimate_color_scheme_method(json_color_scheme):
     # print(color_scheme)
+    hue_array = []
 
     for json_color in json_color_scheme:
         # print(json_color)
@@ -14,7 +15,10 @@ def estimate_color_scheme_method(json_color_scheme):
         color_rgb = hex_to_rgb(color)
         color_hsl = rgb_to_hsl(color_rgb)
         hue = color_hsl[0]
-        print(f"hsl = {hue}")
+        saturation = color_hsl[1]
+        if (saturation > 10):
+            hue_array.append(hue)
+        print(f"hue_array = {hue_array}")
 
     print("")
 
