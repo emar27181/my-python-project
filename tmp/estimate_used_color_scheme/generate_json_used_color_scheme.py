@@ -1,4 +1,4 @@
-from estimate_used_color_scheme import estimate_used_color_scheme
+from estimate_used_color_scheme import estimate_used_color_scheme, rgb_to_hex
 import json
 import numpy as np
 
@@ -11,8 +11,9 @@ def generate_json_used_color_scheme(image_path):
     # JSON用のリストを作成
     json_data = []
     for color_scheme in used_color_schemes:
+        hex = rgb_to_hex(color_scheme[0].tolist())
         color_dict = {
-            "color": color_scheme[0].tolist(),  # NumPy配列をリストに変換
+            "color": hex,  # NumPy配列をリストに変換
             "rate": color_scheme[1]
         }
         json_data.append(color_dict)
