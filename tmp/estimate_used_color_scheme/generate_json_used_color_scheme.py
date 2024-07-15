@@ -14,7 +14,7 @@ def generate_json_used_color_scheme(image_path):
         hex = rgb_to_hex(color_scheme[0].tolist())
         color_dict = {
             "color": hex,  # NumPy配列をリストに変換
-            "rate": color_scheme[1]
+            "rate": round(10 * color_scheme[1]) / 1000
         }
         json_data.append(color_dict)
 
