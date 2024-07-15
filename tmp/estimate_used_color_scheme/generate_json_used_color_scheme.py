@@ -1,6 +1,7 @@
 from estimate_used_color_scheme import estimate_used_color_scheme, rgb_to_hex
 import json
 import numpy as np
+import os
 
 
 # 読込んだイラストの使用配色をjson形式で保存する関数
@@ -35,12 +36,14 @@ def generate_json_used_color_scheme(image_path):
 def save_json_used_color_scheme():
     json_data = []
 
-    add_json_data = generate_json_used_color_scheme('tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg')
-    json_data.append(add_json_data)
-    add_json_data = generate_json_used_color_scheme('tmp/estimate_used_color_scheme/data/input/NCG260-2000x1200.jpg')
-    json_data.append(add_json_data)
-    add_json_data = generate_json_used_color_scheme('tmp/estimate_used_color_scheme/data/input/NCG260-2000x1200.jpg')
-    json_data.append(add_json_data)
+    directory_path = 'tmp/estimate_used_color_scheme/data/input/'
+    jpg_files = [file for file in os.listdir(directory_path) if file.endswith('.jpg')]  # .jpgファイルの名前をすべて配列に保存
+
+    print(jpg_files)
+
+    for file_name in jpg_files:
+        add_json_data = generate_json_used_color_scheme(f"{directory_path}{file_name}")
+        json_data.append(add_json_data)
 
     # print(json_data)
 
