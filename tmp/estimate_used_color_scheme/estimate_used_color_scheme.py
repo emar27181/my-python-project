@@ -29,28 +29,25 @@ def estimate_used_color_scheme(image_path):
         saturation = hsl[1]
 
         if (count >= 10000):
-            # if ((count >= 10000) & (saturation >= 30)):
             rate = (100 * count / pixel_count)
             used_color_schemes.append([color, rate])
 
-            # print(f"used_color_schemes = {used_color_schemes}")
-            # used_color_schemes.append([color, count])
-
+            # 確認用出力
             if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
                 print_colored_text("■■■■■■■■■■■■", color)
                 # print(f'Rate: {round(100*count/pixel_count)}%, Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
                 print(f'Rate: {round(10*rate)/10}%, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
-    # print(f'used_color_scheme: {used_color_schemes}') # 確認用出力
-
     # 配色の中で同じ色を結合して保存
     merged_used_color_schemes = merge_similar_color(used_color_schemes, 5)
-
-    # print(f"merged_used_color_schemes = {merged_used_color_schemes}")  # 確認用出力
 
     # 出現回数が多い順でソート([i][1] の要素で降順にソート)
     merged_used_color_schemes = sorted(merged_used_color_schemes, key=lambda x: x[1], reverse=True)
 
+    # 先頭の色の彩度が20以下であるのを避けて要素を移動
+    merged_used_color_schemes = rotate_avoid_is_head_achromatic(merged_used_color_schemes)
+
+    # 確認用出力
     if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
         print("------ ↓ ------")
     for color, rate in merged_used_color_schemes:
@@ -59,6 +56,21 @@ def estimate_used_color_scheme(image_path):
         print(f'Rate: {round(10*rate)/10}%, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
     return merged_used_color_schemes
+
+
+# 先頭の色の彩度が20以下であるのを避けて要素を移動させる関数
+def rotate_avoid_is_head_achromatic(color_scheme):
+    head_color = rgb_to_hsl(color_scheme[0][0])
+    head_saturation = head_color[1]
+
+    while (head_saturation <= 20):
+        print(f"saturation: {head_saturation}")
+        color_scheme.append(color_scheme.pop(0))
+        head_color = rgb_to_hsl(color_scheme[0][0])
+        head_saturation = head_color[1]
+
+    print(f"color_scheme = {color_scheme}")
+    return color_scheme
 
 
 # 使用配色のうちΔE値が5以下の色を結合する関数
