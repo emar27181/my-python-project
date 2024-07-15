@@ -23,7 +23,7 @@ def estimate_used_color_scheme(image_path):
 
     used_color_schemes = []  # 使用した配色を保存する変数の初期化
 
-    # カラーコードと出現回数を表示
+    # 配色(カラーコードと出現回数)を計測
     for color, count in color_counter.most_common():
         hsl = rgb_to_hsl(color)
         saturation = hsl[1]
@@ -36,15 +36,20 @@ def estimate_used_color_scheme(image_path):
                 print_colored_text("■■■■■■■■■■■■", color)
                 print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
-    # print(f'used_color_scheme: {used_color_schemes}')
+    # print(f'used_color_scheme: {used_color_schemes}') # 確認用出力
+
+    # 配色の中で同じ色を結合して保存
     merged_used_color_schemes = merge_similar_color(used_color_schemes, 5)
-    # print(f"merged_used_color_schemes = {merged_used_color_schemes}")
+
+    # print(f"merged_used_color_schemes = {merged_used_color_schemes}") # 確認用出力
 
     if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
         print("------ ↓ ------")
     for color, count in merged_used_color_schemes:
         print_colored_text("■■■■■■■■■■■■", color)
         print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
+
+    return merged_used_color_schemes
 
 
 # 使用配色のうちΔE値が5以下の色を結合する関数
