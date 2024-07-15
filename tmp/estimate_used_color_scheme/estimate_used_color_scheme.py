@@ -41,7 +41,10 @@ def estimate_used_color_scheme(image_path):
     # 配色の中で同じ色を結合して保存
     merged_used_color_schemes = merge_similar_color(used_color_schemes, 5)
 
-    # print(f"merged_used_color_schemes = {merged_used_color_schemes}") # 確認用出力
+    print(f"merged_used_color_schemes = {merged_used_color_schemes}")  # 確認用出力
+
+    # 出現回数が多い順でソート([i][1] の要素で降順にソート)
+    merged_used_color_schemes = sorted(merged_used_color_schemes, key=lambda x: x[1], reverse=True)
 
     if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
         print("------ ↓ ------")
