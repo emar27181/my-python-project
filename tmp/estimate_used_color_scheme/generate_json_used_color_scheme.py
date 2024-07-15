@@ -18,6 +18,14 @@ def generate_json_used_color_scheme(image_path):
         }
         json_data.append(color_dict)
 
+    first_element = {
+        "illustName": image_path,
+        "color": json_data[0]["color"],
+        "rate": json_data[0]["rate"]
+    }
+
+    json_data = [first_element] + json_data[1:]
+
     json_string = json.dumps(json_data, indent=4)  # JSON文字列に変換
     # print(json_string)  # 結果のJSON文字列を表示
     # print(json_data)  # 結果のJSON文字列を表示
