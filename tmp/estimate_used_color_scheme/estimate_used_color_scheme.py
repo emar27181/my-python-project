@@ -6,22 +6,19 @@ from calculate_color_difference import color_difference_delta_e
 import numpy as np
 
 
-# 画像を読み込む
-def estimate_used_color_scheme():
+# 読み込まれた画像の使用配色を推定する関数
+def estimate_used_color_scheme(image_path):
     # image_path = 'tmp/estimate_used_color_scheme/data/input/NCG290-1920x1200.jpg'  # 画像のパスを指定
     # image_path = 'tmp/estimate_used_color_scheme/data/input/NCG260-2000x1200.jpg'  # 画像のパスを指定
-    image_path = 'tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg'  # 画像のパスを指定
-
+    # image_path = 'tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg'  # 画像のパスを指定
     image = Image.open(image_path)
 
-    # 画像をRGBに変換
-    image = image.convert('RGB')
+    print("\n")
+    print(f"loading {image_path}")
 
-    # 画像のピクセルデータを取得
-    pixels = list(image.getdata())
-
-    # カラーコードとその出現回数をカウント
-    color_counter = Counter(pixels)
+    image = image.convert('RGB')  # 画像をRGBに変換
+    pixels = list(image.getdata())  # 画像のピクセルデータを取得
+    color_counter = Counter(pixels)  # カラーコードとその出現回数をカウント
 
     used_color_schemes = []  # 使用した配色を保存する変数の初期化
 
@@ -120,7 +117,7 @@ def print_colored_text(text, rgb):
 
 
 def main():
-    estimate_used_color_scheme()
+    estimate_used_color_scheme('tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg')
 
     """
     print(f'ΔEの色差: {color_difference_delta_e((243, 243, 243), (255, 255, 255))}')
