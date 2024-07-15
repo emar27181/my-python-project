@@ -4,6 +4,7 @@ from PIL import Image
 from collections import Counter
 from calculate_color_difference import color_difference_delta_e
 import numpy as np
+import config.constants
 
 
 # 読み込まれた画像の使用配色を推定する関数
@@ -30,14 +31,17 @@ def estimate_used_color_scheme(image_path):
         if (count >= 10000):
             # if ((count >= 10000) & (saturation >= 30)):
             used_color_schemes.append([color, count])
-            print_colored_text("■■■■■■■■■■■■", color)
-            print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
+
+            if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
+                print_colored_text("■■■■■■■■■■■■", color)
+                print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
     # print(f'used_color_scheme: {used_color_schemes}')
     merged_used_color_schemes = merge_similar_color(used_color_schemes, 5)
     # print(f"merged_used_color_schemes = {merged_used_color_schemes}")
 
-    print("------ ↓ ------")
+    if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
+        print("------ ↓ ------")
     for color, count in merged_used_color_schemes:
         print_colored_text("■■■■■■■■■■■■", color)
         print(f'Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
