@@ -1,6 +1,6 @@
 import json
 from estimate_used_color_scheme import rgb_to_hsl
-from utils.color_utils import hex_to_rgb
+from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex
 
 # ある配色で使われた配色技法を推定する関数
 
@@ -18,7 +18,11 @@ def estimate_color_scheme_method(json_color_scheme):
         saturation = color_hsl[1]
         if (saturation > 10):
             hue_array.append(hue)
-        print(f"hue_array = {hue_array}")
+
+    for hue in hue_array:
+        color_rgb = hsl_to_rgb(hue, 50, 50)
+        print_colored_text("■■■■■■", color_rgb)
+        print(f"hue: {hue}")
 
     print("")
 
