@@ -2,6 +2,7 @@ import json
 from PIL import Image
 from estimate_used_color_scheme import rgb_to_hsl
 from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex, merge_similar_color
+from utils.color_class import ColorScheme
 
 IS_PRINT_HUE_DATA = False  # 抽出した色相の情報を表示させるかどうかを保存する固定値
 
@@ -10,6 +11,8 @@ IS_PRINT_HUE_DATA = False  # 抽出した色相の情報を表示させるかど
 def estimate_used_color_scheme_method(json_color_scheme):
     used_hues = estimate_used_hue(json_color_scheme)
 
+    # 確認用出力
+    print(f"len(used_hues): {len(used_hues)}")
     for color_info in used_hues:
         # print(f"hue_info: {hue_info}")
         color_rgb = color_info[0]
@@ -17,6 +20,21 @@ def estimate_used_color_scheme_method(json_color_scheme):
 
         print_colored_text("■■■■■■", color_rgb)
         print(f"hue: {color_hsl[0]}")
+
+    if (len(used_hues) == 1):
+        print(ColorScheme.ERROR)
+    elif (len(used_hues) == 2):
+        print(ColorScheme.ANALOGY_COLOR)
+    elif (len(used_hues) == 3):
+        print(ColorScheme.DOMINANT_COLOR)
+    elif (len(used_hues) == 4):
+        print(ColorScheme.TETRADE_COLOR)
+    elif (len(used_hues) == 5):
+        print(ColorScheme.PENTAD_COLOR)
+    elif (len(used_hues) == 6):
+        print(ColorScheme.HEXAD_COLOR)
+    else:
+        print(ColorScheme.ERROR)
 
     print("")
 
