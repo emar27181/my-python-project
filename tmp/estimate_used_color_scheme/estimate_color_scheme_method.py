@@ -8,14 +8,24 @@ IS_PRINT_HUE_DATA = False  # 抽出した色相の情報を表示させるかど
 
 # ある配色で使われた配色技法を推定する関数
 def estimate_used_color_scheme_method(json_color_scheme):
-    estimate_used_hue(json_color_scheme)
+    used_hues = estimate_used_hue(json_color_scheme)
+
+    for color_info in used_hues:
+        # print(f"hue_info: {hue_info}")
+        color_rgb = color_info[0]
+        color_hsl = rgb_to_hsl(color_rgb)
+
+        print_colored_text("■■■■■■", color_rgb)
+        print(f"hue: {color_hsl[0]}")
+
+    print("")
 
 
 # ある配色で使われた色相を推定する関数
 def estimate_used_hue(json_color_scheme):
     # print(color_scheme)
     hue_array = []
-    used_color_schemes_method = []
+    used_hues = []
 
     for json_color in json_color_scheme:
         # print(json_color)
@@ -30,7 +40,7 @@ def estimate_used_hue(json_color_scheme):
         # 彩度が10(暫定値)以上の場合，有彩色としてスロットに追加
         if ((saturation > 10) & (lightness < 95)):
             hue_array.append(hue)
-            used_color_schemes_method.append([hsl_to_rgb(hue, 50, 50), rate])
+            used_hues.append([hsl_to_rgb(hue, 50, 50), rate])
 
     if (IS_PRINT_HUE_DATA):
         # 読込んだ画像の情報の出力
@@ -40,21 +50,23 @@ def estimate_used_hue(json_color_scheme):
         print(file_path)
 
     if (False):
-        for color_info in used_color_schemes_method:
+        for color_info in used_hues:
             print_colored_text("■■■■■■", color_info[0])
             print(f"hsl: {rgb_to_hsl(color_info[0])}, rate: {color_info[1]}")
 
         print("---- ↓ -----")
 
-    merged_used_color_schemes_method = merge_similar_color(used_color_schemes_method, 5)
+    merged_used_hues = merge_similar_color(used_hues, 5)
 
     if (IS_PRINT_HUE_DATA):
-        for color_info in merged_used_color_schemes_method:
+        for color_info in merged_used_hues:
             print_colored_text("■■■■■■", color_info[0])
             print(f"hsl: {rgb_to_hsl(color_info[0])}, rate: {color_info[1]}")
 
     if (IS_PRINT_HUE_DATA):
         print("\n")
+
+    return merged_used_hues
 
 
 def main():
