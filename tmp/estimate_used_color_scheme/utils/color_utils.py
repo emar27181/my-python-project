@@ -1,3 +1,7 @@
+import numpy as np
+from calculate_color_difference import color_difference_delta_e
+
+
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
     return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
@@ -57,3 +61,29 @@ print(hex_to_rgb("#FFFFFF"))
 print(hex_to_rgb("#FF0000"))
 print(hex_to_rgb("#FF5500"))
 """
+
+
+# 使用配色のうちΔE値が5以下の色を結合する関数
+def merge_similar_color(color_scheme, threshold):
+    merged_colors = []  # 結合する色を保存する配列を初期化
+
+    # 配色がある限り色を結合
+    while len(color_scheme) > 0:
+        base_color = color_scheme[0]  # 先頭の色をベースカラーに代入
+        to_merge = [base_color]
+        color_scheme = color_scheme[1:]
+
+        # 先頭の色と先頭以外の色でΔEが閾値以下の場合があるかどうかの探索
+        for i in range(len(color_scheme) - 1, -1, -1):  # 最後尾([len(~)-1])からから先頭([-1])まで検索
+
+            # 先頭の色とi番目の色が同じ色だった場合
+            if color_difference_delta_e(base_color[0], color_scheme[i][0]) <= threshold:
+                to_merge.append(color_scheme[i])  # 結合する色を保存するスロットにi番目の色を追加
+                color_scheme.pop(i)  # 結合されるi番目の色を削除
+
+        # 色の加重平均と合算された出現回数を色を結合する配列に追加
+        merge_color_total_count = sum([color[1] for color in to_merge])  # 出現回数の合算
+        merge_color_rgb = np.average([color[0] for color in to_merge], axis=0, weights=[color[1] for color in to_merge])
+        merge_color_rgb = np.round(merge_color_rgb).astype(int)
+        merged_colors.append([merge_color_rgb, merge_color_total_count])
+    return merged_colors
