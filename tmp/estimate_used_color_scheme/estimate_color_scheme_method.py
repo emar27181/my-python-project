@@ -4,6 +4,10 @@ from estimate_used_color_scheme import rgb_to_hsl
 from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex, merge_similar_color
 
 
+# ある配色で使われた配色技法を推定する関数
+def estimate_used_color_scheme_method(json_color_scheme):
+    estimate_used_hue(json_color_scheme)
+
 # ある配色で使われた色相を推定する関数
 
 
@@ -55,7 +59,8 @@ def main():
         json_data = json.load(file)
 
     for color_scheme in json_data:
-        estimate_used_hue(color_scheme)
+        # estimate_used_hue(color_scheme)
+        estimate_used_color_scheme_method(color_scheme)
 
     # print(json_data)
 
