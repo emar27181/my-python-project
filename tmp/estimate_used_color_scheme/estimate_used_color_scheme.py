@@ -61,6 +61,15 @@ def estimate_used_color_scheme(image_path):
 
 # 先頭の色の彩度が20以下であるのを避けて要素を移動させる関数
 def rotate_avoid_is_head_achromatic(color_scheme):
+    is_all_achromatic = True
+    for color in color_scheme:
+        color_hsl = rgb_to_hsl(color[0])
+        if (color_hsl[1] > 20):
+            is_all_achromatic = False
+    # すべての色が無彩色と判定された場合
+    if (is_all_achromatic):
+        return color_scheme
+
     head_color = rgb_to_hsl(color_scheme[0][0])
     head_saturation = head_color[1]
 
