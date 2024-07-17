@@ -19,7 +19,7 @@ def estimate_used_color_scheme_method(json_color_scheme):
         color_hsl = rgb_to_hsl(color_rgb)
 
         print_colored_text("■■■■■■", color_rgb)
-        print(f"hue: {color_hsl[0]}")
+        print(f"hue: {color_hsl[0]}, hsl: {color_hsl}")
 
     if (len(used_hues) == 1):
         print(ColorScheme.ERROR)
@@ -59,6 +59,11 @@ def estimate_used_hue(json_color_scheme):
         if ((saturation > 10) & (lightness < 95)):
             hue_array.append(hue)
             used_hues.append([hsl_to_rgb(hue, 50, 50), rate])
+        else:
+            if (lightness > 50):
+                used_hues.append([(255, 255, 255), rate])
+            else:
+                used_hues.append([(0, 0, 0), rate])
 
     if (IS_PRINT_HUE_DATA):
         # 読込んだ画像の情報の出力
