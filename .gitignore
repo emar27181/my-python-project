@@ -3,4 +3,5 @@ settings.json
 data/
 src/test/
 *.pyc
+*_dev*
 tmp/output
