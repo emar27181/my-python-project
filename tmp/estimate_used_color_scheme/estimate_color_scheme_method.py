@@ -14,6 +14,7 @@ IS_PRINT_HUE_DATA = False  # 抽出した色相の情報を表示させるかど
 # ある配色で使われた配色技法を推定する関数
 def estimate_used_color_scheme_method(json_color_scheme):
 
+    used_color_scheme_method = ColorScheme.INIT
     used_colors = estimate_used_hue(json_color_scheme)
     used_hues = []
     hue_diffs = []
@@ -22,7 +23,7 @@ def estimate_used_color_scheme_method(json_color_scheme):
     file_path = json_color_scheme[0]['illustName']
     print("============================================")
     print(f"file_path: {file_path}")
-    print(f"len(used_hues): {len(used_colors)}")
+    print(f"使われた色の数は {len(used_colors)} 色です．")
     for color_info in used_colors:
         # print(f"hue_info: {hue_info}")
         color_rgb = color_info[0]
@@ -45,25 +46,59 @@ def estimate_used_color_scheme_method(json_color_scheme):
     print("")
 
     # 使用した配色技法の推定
+    # 色の数が1色だった場合
     if (len(used_colors) == 1):
-        print(ColorScheme.ERROR)
+        used_color_scheme_method = ColorScheme.IDENTITY_COLOR
+
+    # 色の数が2色だった場合
     elif (len(used_colors) == 2):
-        print(ColorScheme.ANALOGY_COLOR)
+        if (hue_diffs[1] >= 165):
+            used_color_scheme_method = ColorScheme.DYAD_COLOR
+        elif (is_angle_between_angles(hue_diffs[1], 75, 105)):
+            # elif ((75 <= hue_diffs[1]) & (hue_diffs[1] <= 105)):
+            used_color_scheme_method = ColorScheme.INTERMEDIATE_COLOR
+        elif (is_angle_between_angles(hue_diffs[1], 105, 165)):
+            used_color_scheme_method = ColorScheme.OPONENT_COLOR
+        elif (is_angle_between_angles(hue_diffs[1], 15, 45)):
+            used_color_scheme_method = ColorScheme.ANALOGY_COLOR
+
+    # 色の数が3色だった場合
     elif (len(used_colors) == 3):
-        print(ColorScheme.DOMINANT_COLOR)
+        if ((hue_diffs[1] <= 30) & (hue_diffs[2] <= 60)):
+            used_color_scheme_method = ColorScheme.DOMINANT_COLOR
+        elif (((120 <= hue_diffs[1]) & (hue_diffs[1] <= 150)) & ((120 <= hue_diffs[2]) & (hue_diffs[2] <= 150))):
+            used_color_scheme_method = ColorScheme.TRIAD_COLOR_SCHEME
+        elif ((hue_diffs[1] >= 150) & (hue_diffs[2] >= 150)):
+            used_color_scheme_method = ColorScheme.SPLIT_COMPLEMENTARY_COLOR
+        elif (is_angle_between_angles(hue_diffs[1], 15, 60) & is_angle_between_angles(hue_diffs[2], 135, 165)):
+            # elif ((hue_diffs[1] <= 45) & (hue_diffs[2] >= 150)):
+            used_color_scheme_method = ColorScheme.SPLIT_COMPLEMENTARY_COLOR
+        elif (is_angle_between_angles(hue_diffs[2], 15, 60) & is_angle_between_angles(hue_diffs[1], 135, 165)):
+            # elif ((hue_diffs[1] >= 150) & (hue_diffs[2] <= 45)):
+            used_color_scheme_method = ColorScheme.SPLIT_COMPLEMENTARY_COLOR
+
+    # 色の数が3色だった場合
     elif (len(used_colors) == 4):
-        print(ColorScheme.TETRADE_COLOR)
+        if (is_angle_between_angles(hue_diffs[1], 75, 105) & is_angle_between_angles(hue_diffs[2], 75, 105) & (hue_diffs[3] >= 165)):
+            used_color_scheme_method = ColorScheme.TETRADE_COLOR
     elif (len(used_colors) == 5):
-        print(ColorScheme.PENTAD_COLOR)
+        used_color_scheme_method = ColorScheme.PENTAD_COLOR
     elif (len(used_colors) == 6):
-        print(ColorScheme.HEXAD_COLOR)
+        used_color_scheme_method = ColorScheme.HEXAD_COLOR
     else:
-        print(ColorScheme.ERROR)
+        used_color_scheme_method = ColorScheme.ERROR
+
+    print(f"推定された配色技法は {used_color_scheme_method} です．")
 
     print("============================================\n")
 
 
+def is_angle_between_angles(angle, angle_start, angle_end):
+    return ((angle_start <= angle) & (angle <= angle_end))
+
 # ある配色で使われた色相を推定する関数
+
+
 def estimate_used_hue(json_color_scheme):
     # print(color_scheme)
     hue_array = []
