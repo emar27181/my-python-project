@@ -3,6 +3,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from estimate_used_color_scheme import rgb_to_hsl
+from calculate_color_difference import color_difference_delta_e
 from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex, merge_similar_color, calc_angle_diff
 from utils.color_class import ColorScheme
 import math
@@ -15,6 +16,7 @@ def estimate_used_color_scheme_method(json_color_scheme):
 
     used_colors = estimate_used_hue(json_color_scheme)
     used_hues = []
+    hue_diffs = []
 
     # 確認用出力
     file_path = json_color_scheme[0]['illustName']
@@ -33,7 +35,12 @@ def estimate_used_color_scheme_method(json_color_scheme):
     # 色相差の計算
     # print(f"used_hues: {used_hues}")
     for i in range(0, len(used_hues)):
-        print(f"[0] : [{i}] = {calc_angle_diff(used_hues[0], used_hues[i])}")
+        hue_diff = calc_angle_diff(used_hues[0], used_hues[i])
+        hue_diffs.append(hue_diff)
+        # print(f"[0] : [{i}] = {hue_diff}")
+
+    hue_diffs.sort()
+    print(f"hue_diffs: {hue_diffs}")
 
     print("")
 
