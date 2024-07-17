@@ -87,3 +87,9 @@ def merge_similar_color(color_scheme, threshold):
         merge_color_rgb = np.round(merge_color_rgb).astype(int)
         merged_colors.append([merge_color_rgb, merge_color_total_count])
     return merged_colors
+
+
+# 角度の差(0°~180°)を計算する関数
+def calc_angle_diff(angle1, angle2):
+    diff = abs(angle1 - angle2)
+    return diff if diff <= 180 else 360 - diff
