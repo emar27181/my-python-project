@@ -41,11 +41,12 @@ def save_json_used_color_scheme():
 
     # directory_path = 'tmp/estimate_used_color_scheme/data/input/gaako/'
     # jpg_files = [file for file in os.listdir(directory_path) if file.endswith('.jpg')]  # .jpgファイルの名前をすべて配列に保存
-    jpg_files = [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.jpg')]  # .jpgファイルの名前をすべて配列に保存
+    image_files = [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.jpg')]  # .jpgファイルの名前をすべて配列に保存
+    image_files = [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.png')]  # .pngファイルの名前をすべて配列に保存
 
-    print(jpg_files)
+    print(image_files)
 
-    for file_name in jpg_files:
+    for file_name in image_files:
         add_json_data = generate_json_used_color_scheme(f"{LOAD_DIRECTORY_PATH}{file_name}")
         json_data.append(add_json_data)
 
