@@ -27,9 +27,10 @@ def estimate_used_color_scheme(image_path):
     for color, count in color_counter.most_common():
         hsl = rgb_to_hsl(color)
         saturation = hsl[1]
+        rate = (100 * count / pixel_count)
 
-        if (count >= 10000):
-            rate = (100 * count / pixel_count)
+        if (rate >= 0.3):
+            # if (count >= 10000):
             used_color_schemes.append([color, rate])
 
             # 確認用出力
@@ -69,7 +70,7 @@ def rotate_avoid_is_head_achromatic(color_scheme):
         head_color = rgb_to_hsl(color_scheme[0][0])
         head_saturation = head_color[1]
 
-    print(f"color_scheme = {color_scheme}")
+    # print(f"color_scheme = {color_scheme}")
     return color_scheme
 
 
@@ -147,6 +148,8 @@ def print_colored_text(text, rgb):
 
 
 def main():
+
+    print("=================\nThis is test run\n=================")
     estimate_used_color_scheme('tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg')
 
     """
