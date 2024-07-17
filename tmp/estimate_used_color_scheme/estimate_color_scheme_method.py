@@ -59,11 +59,13 @@ def estimate_used_hue(json_color_scheme):
         if ((saturation > 10) & (lightness < 95)):
             hue_array.append(hue)
             used_hues.append([hsl_to_rgb(hue, 50, 50), rate])
+        """
         else:
             if (lightness > 50):
                 used_hues.append([(255, 255, 255), rate])
             else:
                 used_hues.append([(0, 0, 0), rate])
+        """
 
     if (IS_PRINT_HUE_DATA):
         # 読込んだ画像の情報の出力
