@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class ColorScheme(Enum):
+    IDENTITY = "identity"
     TRIAD_COLOR = "triadColor"
     SPLIT_COMPLEMENTARY_COLOR = "splitComplementaryColor"
     DYAD_COLOR = "dyadColor"
