@@ -98,7 +98,9 @@ def estimate_used_hue(json_color_scheme):
 
         print("---- ↓ -----")
 
-    merged_used_hues = merge_similar_color(used_hues, 5)
+    # 使用した色相らをΔE値15以下のもので結合
+    # 使用色の抽出(ΔE=5)と違い使用配色の抽出はΔE=15が良さそう？
+    merged_used_hues = merge_similar_color(used_hues, 15)
 
     if (IS_PRINT_HUE_DATA):
         for color_info in merged_used_hues:
