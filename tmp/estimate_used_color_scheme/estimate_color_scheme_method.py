@@ -3,44 +3,57 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from estimate_used_color_scheme import rgb_to_hsl
-from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex, merge_similar_color
+from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex, merge_similar_color, calc_angle_diff
 from utils.color_class import ColorScheme
+import math
 
 IS_PRINT_HUE_DATA = False  # 抽出した色相の情報を表示させるかどうかを保存する固定値
 
 
 # ある配色で使われた配色技法を推定する関数
 def estimate_used_color_scheme_method(json_color_scheme):
-    used_hues = estimate_used_hue(json_color_scheme)
+
+    used_colors = estimate_used_hue(json_color_scheme)
+    used_hues = []
 
     # 確認用出力
     file_path = json_color_scheme[0]['illustName']
+    print("============================================")
     print(f"file_path: {file_path}")
-    print(f"len(used_hues): {len(used_hues)}")
-    for color_info in used_hues:
+    print(f"len(used_hues): {len(used_colors)}")
+    for color_info in used_colors:
         # print(f"hue_info: {hue_info}")
         color_rgb = color_info[0]
         color_hsl = rgb_to_hsl(color_rgb)
+        used_hues.append(color_hsl[0])
 
         print_colored_text("■■■■■■", color_rgb)
         print(f"hue: {color_hsl[0]}, hsl: {color_hsl}")
 
-    if (len(used_hues) == 1):
+    # 色相差の計算
+    # print(f"used_hues: {used_hues}")
+    for i in range(0, len(used_hues)):
+        print(f"[0] : [{i}] = {calc_angle_diff(used_hues[0], used_hues[i])}")
+
+    print("")
+
+    # 使用した配色技法の推定
+    if (len(used_colors) == 1):
         print(ColorScheme.ERROR)
-    elif (len(used_hues) == 2):
+    elif (len(used_colors) == 2):
         print(ColorScheme.ANALOGY_COLOR)
-    elif (len(used_hues) == 3):
+    elif (len(used_colors) == 3):
         print(ColorScheme.DOMINANT_COLOR)
-    elif (len(used_hues) == 4):
+    elif (len(used_colors) == 4):
         print(ColorScheme.TETRADE_COLOR)
-    elif (len(used_hues) == 5):
+    elif (len(used_colors) == 5):
         print(ColorScheme.PENTAD_COLOR)
-    elif (len(used_hues) == 6):
+    elif (len(used_colors) == 6):
         print(ColorScheme.HEXAD_COLOR)
     else:
         print(ColorScheme.ERROR)
 
-    print("")
+    print("============================================\n")
 
 
 # ある配色で使われた色相を推定する関数
