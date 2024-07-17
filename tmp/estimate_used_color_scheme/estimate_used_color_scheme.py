@@ -159,7 +159,7 @@ def print_colored_text(text, rgb):
 def main():
 
     print("=================\nThis is test run\n=================")
-    estimate_used_color_scheme('tmp/estimate_used_color_scheme/data/input/NCG297-2-1920x1920.jpg')
+    estimate_used_color_scheme('tmp/estimate_used_color_scheme/data/input/sample_input.jpg')
 
     """
     print(f'ΔEの色差: {color_difference_delta_e((243, 243, 243), (255, 255, 255))}')
