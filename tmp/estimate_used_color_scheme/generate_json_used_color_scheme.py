@@ -41,8 +41,8 @@ def save_json_used_color_scheme():
 
     # directory_path = 'tmp/estimate_used_color_scheme/data/input/gaako/'
     # jpg_files = [file for file in os.listdir(directory_path) if file.endswith('.jpg')]  # .jpgファイルの名前をすべて配列に保存
-    image_files = [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.jpg')]  # .jpgファイルの名前をすべて配列に保存
-    image_files = [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.png')]  # .pngファイルの名前をすべて配列に保存
+    # .jpgファイルと.pngファイルの名前を同じ配列に保存
+    image_files = [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.jpg')] + [file for file in os.listdir(LOAD_DIRECTORY_PATH) if file.endswith('.png')]
 
     print(image_files)
 
