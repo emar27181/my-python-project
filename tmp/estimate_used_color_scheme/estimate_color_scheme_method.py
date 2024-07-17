@@ -1,5 +1,7 @@
 import json
 from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 from estimate_used_color_scheme import rgb_to_hsl
 from utils.color_utils import hex_to_rgb, print_colored_text, hsl_to_rgb, rgb_to_hex, merge_similar_color
 from utils.color_class import ColorScheme
@@ -12,6 +14,8 @@ def estimate_used_color_scheme_method(json_color_scheme):
     used_hues = estimate_used_hue(json_color_scheme)
 
     # 確認用出力
+    file_path = json_color_scheme[0]['illustName']
+    print(f"file_path: {file_path}")
     print(f"len(used_hues): {len(used_hues)}")
     for color_info in used_hues:
         # print(f"hue_info: {hue_info}")
