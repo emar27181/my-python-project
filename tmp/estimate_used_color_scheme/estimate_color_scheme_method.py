@@ -122,6 +122,21 @@ def main():
 
     # print(json_data)
 
+    if (False):
+        # テスト
+        # 色相差とΔE値はどれぐらい近い？(ex: 色相が5度離れたらΔEも5になる？)
+        print(hsl_to_rgb(0, 100, 50))
+
+        print(color_difference_delta_e(hsl_to_rgb(0, 50, 50), hsl_to_rgb(5, 50, 50)))  # ΔE = 3.2
+        print(color_difference_delta_e(hsl_to_rgb(0, 50, 50), hsl_to_rgb(10, 50, 50)))  # ΔE = 7.1
+        print(color_difference_delta_e(hsl_to_rgb(0, 50, 50), hsl_to_rgb(15, 50, 50)))  # ΔE = 11.0
+
+        print(color_difference_delta_e(hsl_to_rgb(180, 50, 50), hsl_to_rgb(185, 50, 50)))  # ΔE = 5.1
+        print(color_difference_delta_e(hsl_to_rgb(180, 50, 50), hsl_to_rgb(190, 50, 50)))  # ΔE = 10.0
+        print(color_difference_delta_e(hsl_to_rgb(160, 50, 50), hsl_to_rgb(195, 50, 50)))  # ΔE = 28.2
+
+        # 色相によって差が異なるっぽい？？当然だけどLAB色空間の比較だからHSL色空間の数字が参考になるわけじゃないっぽい
+
 
 if __name__ == "__main__":
     main()
