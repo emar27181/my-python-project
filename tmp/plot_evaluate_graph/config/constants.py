@@ -8,7 +8,10 @@ TIME_LIST = []
 SIM_MIN = 0
 SIM_MAX = 0
 
-EVALUATED_PARAMETER = "CUSTOM"  # "CUSTOM", "SAME", "TIME", "LIGHT"
+# 読込むイラストレーターのディレクトリ名
+LOAD_ILLUST_DIR_NAME = "NCG"
+
+EVALUATED_PARAMETER = "SAME"  # "CUSTOM", "SAME", "TIME", "LIGHT"
 
 # 同一色判定の閾値の差が異なる固定値の設定
 if (EVALUATED_PARAMETER == "CUSTOM"):
@@ -21,7 +24,7 @@ if (EVALUATED_PARAMETER == "CUSTOM"):
 # 同一色判定の閾値の差が異なる固定値の設定
 if (EVALUATED_PARAMETER == "SAME"):
     LIGHTNESS_LIST = [[-20, 20]]
-    TIME_LIST = [[0, 1]]
+    TIME_LIST = [[0, 1, 2]]
     SIM_MIN = 5
     SIM_MAX = 15
 
@@ -35,6 +38,6 @@ elif (EVALUATED_PARAMETER == "LIGHT"):
 # 描画するタイミングが異なる固定値の設定
 elif (EVALUATED_PARAMETER == "TIME"):
     LIGHTNESS_LIST = [[-20, 20]]
-    TIME_LIST = [[0], [1], [0, 1]]
+    TIME_LIST = [[0], [1], [2], [0, 1, 2]]
     SIM_MIN = 10
     SIM_MAX = 10

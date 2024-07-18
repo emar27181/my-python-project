@@ -3,11 +3,14 @@ import os
 import numpy as np
 import json
 import config.constants
+from config.constants import LOAD_ILLUST_DIR_NAME
 
 # 配列の宣言を関数内に移動して、リセット可能にする
 
 
 def insert_values(recalls):
+    # print(recalls)
+
     recall_at_k_values = []
     precision_at_k_values = []
     color_count_at_k_values = []
