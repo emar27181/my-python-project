@@ -37,7 +37,7 @@ def insert_values(recalls):
 
 def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_limit):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
-    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, y_limit)
     plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
@@ -130,7 +130,7 @@ def load_file_and_generate_graph(graph_type):
                 generate_graph(graph_type, label, color, same, timing, lightness, config.constants.TIME_LIST)
 
     # 対応するグラフの保存
-    file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={config.constants.TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
+    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={config.constants.TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{file_name}.png')
     print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
 
