@@ -45,7 +45,7 @@ def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_lim
 
 def return_data(same, timing, lightness):
     file_name = f'recall@k_SAME={same}_EVAL={timing}_LIGHT={lightness}'
-    file_path = f'tmp/input/{file_name}.json'
+    file_path = f'tmp/plot_evaluate_graph/data/input/{file_name}.json'
 
     # ファイルが正しく読み込めた場合
     if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
@@ -120,8 +120,8 @@ def load_file_and_generate_graph(graph_type):
 
     # 対応するグラフの保存
     file_name = f'{graph_type}@k_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={config.constants.TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
-    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/output/{file_name}.png')
-    print(f"./tmp/output/{file_name}.png が保存されました．\n")
+    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{file_name}.png')
+    print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
 
 
 def main():
