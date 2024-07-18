@@ -5,6 +5,8 @@ from collections import Counter
 from calculate_color_difference import color_difference_delta_e
 import numpy as np
 import config.constants
+import config.constants_dev
+from config.constants_dev import SATURATION_LOWER_LIMIT, LIGHTNESS_UPPER_LIMIT, LIGHTNESS_LOWER_LIMIT
 
 
 # 読み込まれた画像の使用配色を推定する関数
@@ -34,7 +36,7 @@ def estimate_used_color_scheme(image_path):
             used_color_schemes.append([color, rate])
 
             # 確認用出力
-            if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
+            if (config.constants_dev.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
                 print_colored_text("■■■■■■■■■■■■", color)
                 # print(f'Rate: {round(100*count/pixel_count)}%, Count: {count}, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
                 print(f'Rate: {round(10*rate)/10}%, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
@@ -48,11 +50,10 @@ def estimate_used_color_scheme(image_path):
     # 先頭の色の彩度が20以下であるのを避けて要素を移動
     # merged_used_color_schemes = rotate_avoid_is_head_achromatic(merged_used_color_schemes)
 
-    # 彩度が20以下の色を削除
-    merged_used_color_schemes = delete_achromatic(merged_used_color_schemes, 20)
+    merged_used_color_schemes = delete_achromatic(merged_used_color_schemes)
 
     # 確認用出力
-    if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
+    if (config.constants_dev.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
         print("------ ↓ ------")
     for color, rate in merged_used_color_schemes:
         print_colored_text("■■■■■■■■■■■■", color)
@@ -63,12 +64,14 @@ def estimate_used_color_scheme(image_path):
 
 
 # 彩度が閾値以下である色を削除する関数
-def delete_achromatic(color_scheme, threshold):
+def delete_achromatic(color_scheme):
 
     # color[0]: rgb
-    deleted_color_scheme = [color for color in color_scheme if rgb_to_hsl(color[0])[1] > threshold]
+    color_scheme = [color for color in color_scheme if rgb_to_hsl(color[0])[1] > SATURATION_LOWER_LIMIT]
+    color_scheme = [color for color in color_scheme if rgb_to_hsl(color[0])[2] > LIGHTNESS_LOWER_LIMIT]
+    color_scheme = [color for color in color_scheme if rgb_to_hsl(color[0])[2] < LIGHTNESS_UPPER_LIMIT]
 
-    return deleted_color_scheme
+    return color_scheme
 
 
 # 先頭の色の彩度が20以下であるのを避けて要素を移動させる関数
@@ -170,9 +173,12 @@ def print_colored_text(text, rgb):
 
 def main():
 
-    print("=================\nThis is test run\n=================")
-    estimate_used_color_scheme('tmp/estimate_used_color_scheme/data/input/sample_input.jpg')
+    file_path = 'tmp/estimate_used_color_scheme/data/input/NCG/NCG110-510x510.jpg'
 
+    print("=================================\nThis is test run\n=================================")
+    print(f"file_path: {file_path}")
+    # estimate_used_color_scheme('tmp/estimate_used_color_scheme/data/input/sample_input.jpg')
+    estimate_used_color_scheme(file_path)
     """
     print(f'ΔEの色差: {color_difference_delta_e((243, 243, 243), (255, 255, 255))}')
     print(f'ΔEの色差: {color_difference_delta_e((157, 190, 209), (144, 181, 200))}')
