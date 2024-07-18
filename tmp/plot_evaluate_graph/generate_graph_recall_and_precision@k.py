@@ -34,7 +34,7 @@ def insert_values(recalls):
 
 def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_limit):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
-    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, EVAL={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'{graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, y_limit)
     plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
@@ -44,8 +44,8 @@ def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_lim
 
 
 def return_data(same, timing, lightness):
-    file_name = f'recall@k_SAME={same}_EVAL={timing}_LIGHT={lightness}_NCG_10x3'
-    file_path = f'tmp/plot_evaluate_graph/data/input/{file_name}.json'
+    file_name = f'recall@k_SAME={same}_TIME={timing}_LIGHT={lightness}'
+    file_path = f'tmp/plot_evaluate_graph/data/input/{LOAD_ILLUST_DIR_NAME}/{file_name}.json'
 
     # ファイルが正しく読み込めた場合
     if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
