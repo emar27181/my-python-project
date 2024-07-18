@@ -46,7 +46,10 @@ def estimate_used_color_scheme(image_path):
     merged_used_color_schemes = sorted(merged_used_color_schemes, key=lambda x: x[1], reverse=True)
 
     # 先頭の色の彩度が20以下であるのを避けて要素を移動
-    merged_used_color_schemes = rotate_avoid_is_head_achromatic(merged_used_color_schemes)
+    # merged_used_color_schemes = rotate_avoid_is_head_achromatic(merged_used_color_schemes)
+
+    # 彩度が20以下の色を削除
+    merged_used_color_schemes = delete_achromatic(merged_used_color_schemes, 20)
 
     # 確認用出力
     if (config.constants.IS_PRINT_COLOR_SCHEME_BEFORE_MEREGED):
@@ -57,6 +60,15 @@ def estimate_used_color_scheme(image_path):
         print(f'Rate: {round(10*rate)/10}%, ColorCode: {rgb_to_hex(color)}, RGB: {color}, HSL: {rgb_to_hsl(color)}')
 
     return merged_used_color_schemes
+
+
+# 彩度が閾値以下である色を削除する関数
+def delete_achromatic(color_scheme, threshold):
+
+    # color[0]: rgb
+    deleted_color_scheme = [color for color in color_scheme if rgb_to_hsl(color[0])[1] > threshold]
+
+    return deleted_color_scheme
 
 
 # 先頭の色の彩度が20以下であるのを避けて要素を移動させる関数
