@@ -14,6 +14,9 @@ IS_PRINT_HUE_DATA = False  # 抽出した色相の情報を表示させるかど
 # ある配色で使われた配色技法を推定する関数
 def estimate_used_color_scheme_method(json_color_scheme):
 
+    if (len(json_color_scheme) == 0):
+        return None
+
     used_color_scheme_method = ColorScheme.INIT
     used_colors = estimate_used_hue(json_color_scheme)
     used_hues = []
