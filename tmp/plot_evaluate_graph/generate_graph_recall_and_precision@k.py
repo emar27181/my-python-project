@@ -44,7 +44,7 @@ def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_lim
 
 
 def return_data(same, timing, lightness):
-    file_name = f'recall@k_SAME={same}_EVAL={timing}_LIGHT={lightness}'
+    file_name = f'recall@k_SAME={same}_EVAL={timing}_LIGHT={lightness}_NCG_10x3'
     file_path = f'tmp/plot_evaluate_graph/data/input/{file_name}.json'
 
     # ファイルが正しく読み込めた場合
@@ -91,9 +91,17 @@ def load_file_and_generate_graph(graph_type):
     i = 0
 
     plt.figure(figsize=(10, 6))  # グラフの初期化
+    print(f"============ {graph_type}@k のグラフ作成 ================")
 
     # 明度のバリエーションによる精度の違いのプロット
     for lightness in config.constants.LIGHTNESS_LIST:
+
+        label = 'INIT'
+        color = "blue"
+
+        if (config.constants.EVALUATED_PARAMETER == 'CUSTOM'):
+            label = 'CUSTOM'
+
         # ラベルを明度の違いに設定
         if (config.constants.EVALUATED_PARAMETER == 'LIGHT'):
             color = colors[i % len(colors)]

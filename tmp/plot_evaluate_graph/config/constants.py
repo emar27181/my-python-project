@@ -8,7 +8,15 @@ TIME_LIST = []
 SIM_MIN = 0
 SIM_MAX = 0
 
-EVALUATED_PARAMETER = "SAME"  # "SAME", "TIME", "LIGHT"
+EVALUATED_PARAMETER = "CUSTOM"  # "CUSTOM", "SAME", "TIME", "LIGHT"
+
+# 同一色判定の閾値の差が異なる固定値の設定
+if (EVALUATED_PARAMETER == "CUSTOM"):
+    LIGHTNESS_LIST = [[-20, 20]]
+    TIME_LIST = [[1]]
+    SIM_MIN = 10
+    SIM_MAX = 10
+
 
 # 同一色判定の閾値の差が異なる固定値の設定
 if (EVALUATED_PARAMETER == "SAME"):
