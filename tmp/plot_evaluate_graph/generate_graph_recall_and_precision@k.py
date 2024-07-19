@@ -89,7 +89,7 @@ def generate_graph(graph_type, label, color, same, timing, lightness, SAME_LIST,
         print('Invalid graph type')
 
 
-def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST):
+def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST):
 
     colors = ['blue', 'green', 'red', 'purple']
     i = 0
@@ -98,7 +98,7 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST):
     print(f"============ {graph_type}@k のグラフ作成 ================")
 
     # 明度のバリエーションによる精度の違いのプロット
-    for lightness in config.constants.LIGHTNESS_LIST:
+    for lightness in LIGHTNESS_LIST:
 
         label = 'INIT'
         color = "blue"
@@ -131,7 +131,7 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST):
                 generate_graph(graph_type, label, color, same, timing, lightness, SAME_LIST, TIME_LIST)
 
     # 対応するグラフの保存
-    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME_LIST[0]}~{SAME_LIST[1]}_TIME={TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
+    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME_LIST[0]}~{SAME_LIST[1]}_TIME={TIME_LIST}_LIGHT={LIGHTNESS_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{file_name}.png')
     print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
 
@@ -139,16 +139,19 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST):
 def main():
 
     # recall@kのグラフの作成
-    load_file_and_generate_graph('recall', 'SAME', [5, 15], [[0, 1, 2]])
-    load_file_and_generate_graph('recall', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]])
+    load_file_and_generate_graph('recall', 'SAME', [5, 15], [[0, 1, 2]], [[20]])
+    load_file_and_generate_graph('recall', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]])
+    load_file_and_generate_graph('recall', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]])
 
     # precision@kのグラフの作成
-    load_file_and_generate_graph('precision', 'SAME', [5, 15], [[0, 1, 2]])
-    load_file_and_generate_graph('precision', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]])
+    load_file_and_generate_graph('precision', 'SAME', [5, 15], [[0, 1, 2]], [[20]])
+    load_file_and_generate_graph('precision', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]])
+    load_file_and_generate_graph('precision', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]])
 
     # color_count@kのグラフの作成
-    load_file_and_generate_graph('color_count', 'SAME', [5, 15], [[0, 1, 2]])
-    load_file_and_generate_graph('color_count', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]])
+    load_file_and_generate_graph('color_count', 'SAME', [5, 15], [[0, 1, 2]], [[20]])
+    load_file_and_generate_graph('color_count', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]])
+    load_file_and_generate_graph('color_count', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]])
 
 
 if __name__ == "__main__":
