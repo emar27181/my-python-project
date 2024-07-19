@@ -37,7 +37,8 @@ def insert_values(recalls):
 
 def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_limit):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
-    plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k (SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    # plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k (SAME={same[0]}~{same[1]}, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, y_limit)
     plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
@@ -88,7 +89,7 @@ def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
         print('Invalid graph type')
 
 
-def load_file_and_generate_graph(graph_type):
+def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME, TIME):
 
     colors = ['blue', 'green', 'red', 'purple']
     i = 0
@@ -102,35 +103,35 @@ def load_file_and_generate_graph(graph_type):
         label = 'INIT'
         color = "blue"
 
-        if (config.constants.EVALUATED_PARAMETER == 'CUSTOM'):
+        if (EVAL_PARAM == 'CUSTOM'):
             label = 'CUSTOM'
 
         # ラベルを明度の違いに設定
-        if (config.constants.EVALUATED_PARAMETER == 'LIGHT'):
+        if (EVAL_PARAM == 'LIGHT'):
             color = colors[i % len(colors)]
             label = f'lightness={lightness}'
             i += 1
 
         # タイミングの違いによる精度の違いのプロット
-        for timing in config.constants.TIME_LIST:
+        for timing in TIME:
             # ラベルをタイミングの違いに設定
-            if (config.constants.EVALUATED_PARAMETER == 'TIME'):
+            if (EVAL_PARAM == 'TIME'):
                 color = colors[i % len(colors)]
                 label = f'timing={timing}'
                 i += 1
 
             # 同一色判定の閾値の違いによる精度の違いのプロット
-            for idx, same in enumerate(range(config.constants.SIM_MIN, config.constants.SIM_MAX + 1, 5)):
+            for idx, same in enumerate(range(SAME[0], SAME[1] + 1, 5)):
                 # ラベルを同一色判定の閾値に設定
-                if (config.constants.EVALUATED_PARAMETER == 'SAME'):
+                if (EVAL_PARAM == 'SAME'):
                     color = colors[i % len(colors)]
                     label = f'SAME={same}'
                     i += 1
 
-                generate_graph(graph_type, label, color, same, timing, lightness, config.constants.TIME_LIST)
+                generate_graph(graph_type, label, color, same, timing, lightness, TIME)
 
     # 対応するグラフの保存
-    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={config.constants.SIM_MIN}~{config.constants.SIM_MAX}_TIME={config.constants.TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
+    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME[0]}~{SAME[1]}_TIME={TIME}_LIGHT={config.constants.LIGHTNESS_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{file_name}.png')
     print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
 
@@ -138,11 +139,11 @@ def load_file_and_generate_graph(graph_type):
 def main():
 
     # recall@kのグラフの作成
-    load_file_and_generate_graph('recall')
+    load_file_and_generate_graph('recall', 'SAME', [5, 15], [[0, 1, 2]])
     # precision@kのグラフの作成
-    load_file_and_generate_graph('precision')
+    load_file_and_generate_graph('precision', 'SAME', [5, 15], [[0, 1, 2]])
     # color_count@kのグラフの作成
-    load_file_and_generate_graph('color_count')
+    load_file_and_generate_graph('color_count', 'SAME', [5, 15], [[0, 1, 2]])
 
 
 if __name__ == "__main__":
