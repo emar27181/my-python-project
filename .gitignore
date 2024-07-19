@@ -5,3 +5,5 @@ src/test/
 *.pyc
 *_dev*
 tmp/output
+
+tmp/plot_evaluate_graph/config/*
