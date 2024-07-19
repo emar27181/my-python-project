@@ -35,10 +35,10 @@ def insert_values(recalls):
 # 引数で受け取った値のグラフを作成する関数
 
 
-def plot_graph(graph_name, k_values, y_values, same, timing, color, label, y_limit):
+def plot_graph(graph_name, k_values, y_values, same, SAME_LIST, TIME_LIST, color, label, y_limit):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
-    # plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k (SAME={same[0]}~{same[1]}, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
-    plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'{graph_name}@k (illustrator: {LOAD_ILLUST_DIR_NAME}, SAME={SAME_LIST[0]}~{SAME_LIST[1]}, TIME={TIME_LIST},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    # plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, y_limit)
     plt.xlabel('k(recommend color schemes pattern)')
     plt.ylabel(graph_name)
@@ -66,7 +66,7 @@ def return_data(same, timing, lightness):
 
 
 # 引数で受け取った閾値のデータを読み込んでグラフを生成する関数
-def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST):
+def generate_graph(graph_type, label, color, same, timing, lightness, SAME_LIST, TIME_LIST):
 
     data = return_data(same, timing, lightness)
 
@@ -80,16 +80,16 @@ def generate_graph(graph_type, label, color, same, timing, lightness, TIME_LIST)
     recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values = insert_values(recalls)
 
     if (graph_type == 'recall'):
-        plot_graph('recall', k_values, recall_at_k_values, same, TIME_LIST, color, label, 1)
+        plot_graph('recall', k_values, recall_at_k_values, same, SAME_LIST, TIME_LIST, color, label, 1)
     elif (graph_type == 'precision'):
-        plot_graph('precision', k_values, precision_at_k_values, same, TIME_LIST, color, label, 1)
+        plot_graph('precision', k_values, precision_at_k_values, same, SAME_LIST, TIME_LIST, color, label, 1)
     elif (graph_type == 'color_count'):
-        plot_graph('color_count', k_values, color_count_at_k_values, same, TIME_LIST, color, label, 5)
+        plot_graph('color_count', k_values, color_count_at_k_values, same, SAME_LIST, TIME_LIST, color, label, 5)
     else:
         print('Invalid graph type')
 
 
-def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME, TIME):
+def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST):
 
     colors = ['blue', 'green', 'red', 'purple']
     i = 0
@@ -113,7 +113,7 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME, TIME):
             i += 1
 
         # タイミングの違いによる精度の違いのプロット
-        for timing in TIME:
+        for timing in TIME_LIST:
             # ラベルをタイミングの違いに設定
             if (EVAL_PARAM == 'TIME'):
                 color = colors[i % len(colors)]
@@ -121,17 +121,17 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME, TIME):
                 i += 1
 
             # 同一色判定の閾値の違いによる精度の違いのプロット
-            for idx, same in enumerate(range(SAME[0], SAME[1] + 1, 5)):
+            for idx, same in enumerate(range(SAME_LIST[0], SAME_LIST[1] + 1, 5)):
                 # ラベルを同一色判定の閾値に設定
                 if (EVAL_PARAM == 'SAME'):
                     color = colors[i % len(colors)]
                     label = f'SAME={same}'
                     i += 1
 
-                generate_graph(graph_type, label, color, same, timing, lightness, TIME)
+                generate_graph(graph_type, label, color, same, timing, lightness, SAME_LIST, TIME_LIST)
 
     # 対応するグラフの保存
-    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME[0]}~{SAME[1]}_TIME={TIME}_LIGHT={config.constants.LIGHTNESS_LIST}'
+    file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME_LIST[0]}~{SAME_LIST[1]}_TIME={TIME_LIST}_LIGHT={config.constants.LIGHTNESS_LIST}'
     plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{file_name}.png')
     print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
 
@@ -140,10 +140,15 @@ def main():
 
     # recall@kのグラフの作成
     load_file_and_generate_graph('recall', 'SAME', [5, 15], [[0, 1, 2]])
+    load_file_and_generate_graph('recall', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]])
+
     # precision@kのグラフの作成
     load_file_and_generate_graph('precision', 'SAME', [5, 15], [[0, 1, 2]])
+    load_file_and_generate_graph('precision', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]])
+
     # color_count@kのグラフの作成
     load_file_and_generate_graph('color_count', 'SAME', [5, 15], [[0, 1, 2]])
+    load_file_and_generate_graph('color_count', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]])
 
 
 if __name__ == "__main__":
