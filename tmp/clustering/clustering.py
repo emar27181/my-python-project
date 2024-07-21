@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
+from sklearn.cluster import KMeans
 
 
 def plot_clustering(clustring_kind):
@@ -12,8 +13,8 @@ def plot_clustering(clustring_kind):
         [6, 3],  # D
         [4, 4],  # E
 
-        [1, 2],
-        [2, 3],
+        [1, 3],
+        [0, 3],
         [3, 4],
         [3, 2],
         [3, 5],
@@ -28,17 +29,22 @@ def plot_clustering(clustring_kind):
 
     data = np.vstack((original_data))
 
-    # 単連結法でクラスタリング
-    if (clustring_kind == "single"):
-        Z = linkage(data, method='single', metric='euclidean')
-    # 完全連結法でクラスタリング
-    elif (clustring_kind == "complete"):
-        Z = linkage(data, method='complete', metric='euclidean')
+    # K-means法でクラスタリング
+    if (clustring_kind == "kmeans"):
+        kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(data)
+        clusters = kmeans.labels_
+    else:
+        # 単連結法でクラスタリング
+        if (clustring_kind == "single"):
+            Z = linkage(data, method='single', metric='euclidean')
+        # 完全連結法でクラスタリング
+        elif (clustring_kind == "complete"):
+            Z = linkage(data, method='complete', metric='euclidean')
 
-    clusters = fcluster(Z, t=1.5, criterion='distance')  # 距離を基準にクラスタリング
-    # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
+        clusters = fcluster(Z, t=1.5, criterion='distance')  # 距離を基準にクラスタリング
+        # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
 
-    # クラスタリング結果のプロットと保存
+    # クラスタリング結果のプロット
     plt.figure(figsize=(10, 10))
     markers = ['o', 's', '^', 'D', 'v', 'p', 'h', 'x', '+', '*']
     colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'black', 'orange', 'purple', 'pink']
@@ -72,6 +78,7 @@ def plot_clustering(clustring_kind):
 def main():
     plot_clustering("single")
     plot_clustering("complete")
+    plot_clustering("kmeans")
 
 
 if __name__ == "__main__":
