@@ -3,7 +3,7 @@ import os
 import numpy as np
 import json
 import config.constants
-from config.constants import LOAD_ILLUST_DIR_NAME
+from config.constants import LOAD_ILLUST_DIR_NAME, EVALUATED_ILLUST_COUNT
 
 # 配列の宣言を関数内に移動して、リセット可能にする
 
@@ -18,26 +18,27 @@ def insert_values(recalls):
 
     for item in recalls:
         recall = item.get('recall')
+        precision = item.get('precision')
         color_count = item.get('colorCountAve')
         k = item.get('k')
+        evaluated_illust_count = item.get('evaluatedIllustCount')
 
         if k == 0:
             continue
 
-        correct_number = recall * config.constants.EVALUATED_ILLUST_COUNT
+        correct_number = recall * evaluated_illust_count
         recall_at_k_values.append(recall)
         color_count_at_k_values.append(color_count)
-        precision_at_k_values.append(correct_number / k)
+        precision_at_k_values.append(precision)
         k_values.append(k)
 
-    return recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values
+    return recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values, evaluated_illust_count
+
 
 # 引数で受け取った値のグラフを作成する関数
-
-
-def plot_graph(graph_name, k_values, y_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, y_limit):
+def plot_graph(graph_name, k_values, y_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, y_limit, evaluated_illust_count):
     plt.plot(k_values, y_values, marker='o', color=color, label=label)
-    plt.title(f'{graph_name}@k (illustrator: {LOAD_ILLUST_DIR_NAME}, SAME={SAME_LIST[0]}~{SAME_LIST[1]}, TIME={TIME_LIST}, WEIGHT={WEIGHT_LIST},n={config.constants.EVALUATED_ILLUST_COUNT})')
+    plt.title(f'{graph_name}@k (illustrator: {LOAD_ILLUST_DIR_NAME}, SAME={SAME_LIST[0]}~{SAME_LIST[1]}, TIME={TIME_LIST}, WEIGHT={WEIGHT_LIST},n={evaluated_illust_count})')
     # plt.title(f'illustrator: {LOAD_ILLUST_DIR_NAME} {graph_name}@k, TIME={timing},n={config.constants.EVALUATED_ILLUST_COUNT})')
     plt.ylim(0, y_limit)
     plt.xlabel('k(recommend color schemes pattern)')
@@ -74,17 +75,17 @@ def generate_graph(graph_type, label, color, same, timing, lightness, weight, SA
         return
 
     # ファイルデータの取得
-    recalls = return_data(same, timing, lightness, weight)
+    recalls = data
 
     # 配列のデータの更新
-    recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values = insert_values(recalls)
+    recall_at_k_values, precision_at_k_values, color_count_at_k_values, k_values, evaluated_illust_count = insert_values(recalls)
 
     if (graph_type == 'recall'):
-        plot_graph('recall', k_values, recall_at_k_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, 1)
+        plot_graph('recall', k_values, recall_at_k_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, 1, evaluated_illust_count)
     elif (graph_type == 'precision'):
-        plot_graph('precision', k_values, precision_at_k_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, 1)
+        plot_graph('precision', k_values, precision_at_k_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, 1, evaluated_illust_count)
     elif (graph_type == 'color_count'):
-        plot_graph('color_count', k_values, color_count_at_k_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, 5)
+        plot_graph('color_count', k_values, color_count_at_k_values, same, SAME_LIST, TIME_LIST, WEIGHT_LIST, color, label, 5, evaluated_illust_count)
     else:
         print('Invalid graph type')
 
@@ -153,8 +154,9 @@ def main():
     load_file_and_generate_graph('recall', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
     load_file_and_generate_graph('recall', 'WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
 
-    # precision@kのグラフの作成
+    # load_file_and_generate_graph('recall', 'TIME', [10, 10], [[1]], [[20]], [50])  # テストプロット
 
+    # precision@kのグラフの作成
     load_file_and_generate_graph('precision', 'SAME', [5, 15], [[0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('precision', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('precision', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
