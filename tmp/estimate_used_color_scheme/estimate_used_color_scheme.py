@@ -50,6 +50,7 @@ def estimate_used_color_scheme(image_path):
     # 先頭の色の彩度が20以下であるのを避けて要素を移動
     # merged_used_color_schemes = rotate_avoid_is_head_achromatic(merged_used_color_schemes)
 
+    # 彩度が10以下または明度が10以下，90以上の色を削除
     merged_used_color_schemes = delete_achromatic(merged_used_color_schemes)
 
     # 確認用出力
