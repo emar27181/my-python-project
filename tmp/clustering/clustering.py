@@ -72,7 +72,57 @@ def single_linkage(base_matrix):
     return clusterd_matrix
 
 
-def plot_clustering(clustring_method):
+def plot_clustering(clustring_method, input_matrix):
+    # K-means法でクラスタリング
+    if (clustring_method == "kmeans"):
+        kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(input_matrix)
+        clusters = kmeans.labels_
+    else:
+        # 単連結法でクラスタリング
+        if (clustring_method == "single"):
+
+            # Z = linkage(data, method='single', metric='euclidean')
+            Z = single_linkage(input_matrix)
+        # 完全連結法でクラスタリング
+        elif (clustring_method == "complete"):
+            # Z = linkage(data, method='complete', metric='euclidean')
+            Z = complete_linkage(input_matrix)
+
+        clusters = fcluster(Z, t=1.5, criterion='distance')  # 距離を基準にクラスタリング
+        # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
+
+    # クラスタリング結果のプロット
+    plt.figure(figsize=(10, 10))
+    markers = ['o', 's', '^', 'D', 'v', 'p', 'h', 'x', '+', '*']
+    colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'black', 'orange', 'purple', 'pink']
+
+    for cluster in np.unique(clusters):
+        cluster_data = input_matrix[clusters == cluster]
+        plt.scatter(cluster_data[:, 0], cluster_data[:, 1],
+                    color=colors[cluster % len(colors)],
+                    marker=markers[cluster % len(markers)],
+                    label=f'Cluster {cluster}',
+                    # color="red",
+                    )
+
+    # plt.scatter(data[:, 0], data[:, 1], c=clusters, cmap='viridis')
+    plt.title(f"{clustring_method} Linkage Clustering on XY Plane")
+    plt.grid(True)
+    plt.xlim(-1, 8)
+    plt.ylim(-1, 8)
+    plt.xlabel("X")
+    plt.ylabel("Y")
+
+    file_name = (f"/mnt/c/WSL-directory/my-NLP-project/tmp/clustering/data/output/{clustring_method}_linkage_xy.png")
+    plt.savefig(f"{file_name}")
+
+    print(f"{file_name} が保存されました．")
+
+    plt.close()
+
+
+def main():
+
     # 元のデータセット
     input_data = np.array([
         [0, 4],  # A
@@ -95,62 +145,12 @@ def plot_clustering(clustring_method):
 
     ])
 
-    data = np.vstack((input_data))
+    print(input_data)
+    print("")
 
-    print(f"data: {data}")
-
-    # K-means法でクラスタリング
-    if (clustring_method == "kmeans"):
-        kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(data)
-        clusters = kmeans.labels_
-    else:
-        # 単連結法でクラスタリング
-        if (clustring_method == "single"):
-
-            # Z = linkage(data, method='single', metric='euclidean')
-            Z = single_linkage(data)
-        # 完全連結法でクラスタリング
-        elif (clustring_method == "complete"):
-            # Z = linkage(data, method='complete', metric='euclidean')
-            Z = complete_linkage(data)
-
-        clusters = fcluster(Z, t=1.5, criterion='distance')  # 距離を基準にクラスタリング
-        # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
-
-    # クラスタリング結果のプロット
-    plt.figure(figsize=(10, 10))
-    markers = ['o', 's', '^', 'D', 'v', 'p', 'h', 'x', '+', '*']
-    colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'black', 'orange', 'purple', 'pink']
-
-    for cluster in np.unique(clusters):
-        cluster_data = data[clusters == cluster]
-        plt.scatter(cluster_data[:, 0], cluster_data[:, 1],
-                    color=colors[cluster % len(colors)],
-                    marker=markers[cluster % len(markers)],
-                    label=f'Cluster {cluster}',
-
-                    )
-
-    # plt.scatter(data[:, 0], data[:, 1], c=clusters, cmap='viridis')
-    plt.title(f"{clustring_method} Linkage Clustering on XY Plane")
-    plt.grid(True)
-    plt.xlim(-1, 8)
-    plt.ylim(-1, 8)
-    plt.xlabel("X")
-    plt.ylabel("Y")
-
-    file_name = (f"/mnt/c/WSL-directory/my-NLP-project/tmp/clustering/data/output/{clustring_method}_linkage_xy.png")
-    plt.savefig(f"{file_name}")
-
-    print(f"{file_name} が保存されました．")
-
-    plt.close()
-
-
-def main():
-    plot_clustering("single")
-    plot_clustering("complete")
-    plot_clustering("kmeans")
+    plot_clustering("single", input_data)
+    plot_clustering("complete", input_data)
+    plot_clustering("kmeans", input_data)
 
 
 if __name__ == "__main__":
