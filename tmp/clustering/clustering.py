@@ -1,7 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.spatial.distance import pdist, squareform
+# my-nlp-venv/lib64/python3.10/site-packages/scipy/cluster/hierarchy.py
 from sklearn.cluster import KMeans
+
+
+# 単連結法によるクラスタリング
+def single_linkage(X):
+    n = len(X)
+    Z = np.zeros((n - 1, 4))  # 結果を格納する配列
+    D = squareform(pdist(X))  # 距離行列
+    np.fill_diagonal(D, np.inf)  # 対角要素は無限大にする
+
+    clusters = {i: [i] for i in range(n)}  # 各データポイントをクラスタに格納
+    cluster_indices = {i: i for i in range(n)}  # 各データポイントのインデックス
+
+    for k in range(n - 1):
+        i, j = np.unravel_index(np.argmin(D), D.shape)  # 最小距離を持つクラスタの探索
+        min_dist = D[i, j]  # 最小距離
+
+        # クラスタの結合
+        new_cluster = clusters[i] + clusters[j]
+        Z[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
+
+        # 距離行列の更新
+        for m in range(n):
+            if m != i and m != j:
+                D[i, m] = D[m, i] = min(D[i, m], D[j, m])
+
+        D[j, :] = D[:, j] = np.inf  # j行とj列を無限大に設定
+
+        # クラスタの管理
+        clusters[i] = new_cluster
+        clusters[j] = []  # jクラスタを空にすることで再利用を防ぐ
+        cluster_indices[i] = k + n  # 新しいクラスタのインデックスを設定
+
+    return Z
 
 
 def plot_clustering(clustring_method):
@@ -36,7 +71,9 @@ def plot_clustering(clustring_method):
     else:
         # 単連結法でクラスタリング
         if (clustring_method == "single"):
-            Z = linkage(data, method='single', metric='euclidean')
+
+            # Z = linkage(data, method='single', metric='euclidean')
+            Z = single_linkage(data)
         # 完全連結法でクラスタリング
         elif (clustring_method == "complete"):
             Z = linkage(data, method='complete', metric='euclidean')
@@ -52,7 +89,6 @@ def plot_clustering(clustring_method):
     for cluster in np.unique(clusters):
         cluster_data = data[clusters == cluster]
         plt.scatter(cluster_data[:, 0], cluster_data[:, 1],
-                    # c=[cluster] * len(cluster_data), cmap='viridis',
                     color=colors[cluster % len(colors)],
                     marker=markers[cluster % len(markers)],
                     label=f'Cluster {cluster}',
