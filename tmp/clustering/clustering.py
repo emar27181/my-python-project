@@ -76,20 +76,47 @@ def single_linkage(base_matrix):
     return clusterd_matrix
 
 
+def kmeans(X, k, max_iters=100, tol=1e-4):
+    n, d = X.shape
+    centroids = X[np.random.choice(n, k, replace=False)]  # ランダムに初期重心を選択
+    prev_centroids = centroids.copy()
+
+    for _ in range(max_iters):
+        # データポイントを最も近い重心に割り当て
+        distances = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
+        labels = np.argmin(distances, axis=1)
+
+        # 新しい重心の計算
+        for i in range(k):
+            if len(X[labels == i]) > 0:
+                centroids[i] = X[labels == i].mean(axis=0)
+
+        # 収束チェック
+        if np.all(np.linalg.norm(centroids - prev_centroids, axis=1) < tol):
+            break
+
+        prev_centroids = centroids.copy()
+
+    # クラスタ割り当て結果
+    # return labels, centroids
+    return labels
+
+
 def plot_clustering(clustring_method, input_matrix):
     # K-means法でクラスタリング
     if (clustring_method == "kmeans"):
-        kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(input_matrix)
-        clusters = kmeans.labels_
+        # kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(input_matrix)  # ライブラリ関数
+        # clusters = kmeans.labels_
+        clusters = kmeans(input_matrix, 3)
     else:
         # 単連結法でクラスタリング
         if (clustring_method == "single"):
 
-            # Z = linkage(data, method='single', metric='euclidean')
+            # Z = linkage(data, method='single', metric='euclidean') # ライブラリ関数
             Z = single_linkage(input_matrix)
         # 完全連結法でクラスタリング
         elif (clustring_method == "complete"):
-            # Z = linkage(data, method='complete', metric='euclidean')
+            # Z = linkage(data, method='complete', metric='euclidean') # ライブラリ関数
             Z = complete_linkage(input_matrix)
 
         clusters = fcluster(Z, t=1.5, criterion='distance')  # 距離を基準にクラスタリング
