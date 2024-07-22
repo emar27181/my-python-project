@@ -17,8 +17,9 @@ def complete_linkage(base_matrix):
     cluster_indices = {i: i for i in range(n)}  # 各データポイントのインデックス
 
     for k in range(n - 1):
-        i, j = np.unravel_index(np.argmin(distance_matrix), distance_matrix.shape)  # 最小距離を持つクラスタの探索
-        min_dist = distance_matrix[i, j]  # 最小距離
+        # 最小距離を持つクラスタの探索
+        i, j = np.unravel_index(np.argmin(distance_matrix), distance_matrix.shape)
+        min_dist = distance_matrix[i, j]
 
         # クラスタの結合
         new_cluster = clusters[i] + clusters[j]
@@ -27,14 +28,15 @@ def complete_linkage(base_matrix):
         # 距離行列の更新
         for m in range(n):
             if m != i and m != j:
-                distance_matrix[i, m] = distance_matrix[m, i] = max(distance_matrix[i, m], distance_matrix[j, m])
+                distance_matrix[i, m] = distance_matrix[m, i] = max(distance_matrix[i, m], distance_matrix[j, m])  # 最大距離を保存
 
-        distance_matrix[j, :] = distance_matrix[:, j] = np.inf  # j行とj列を無限大に設定
+        # 結合済みの行と列の距離を無限大に設定
+        distance_matrix[j, :] = distance_matrix[:, j] = np.inf
 
         # クラスタの管理
         clusters[i] = new_cluster
-        clusters[j] = []  # jクラスタを空にすることで再利用を防ぐ
-        cluster_indices[i] = k + n  # 新しいクラスタのインデックスを設定
+        clusters[j] = []
+        cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
 
     return clusterd_matrix
 
@@ -50,8 +52,9 @@ def single_linkage(base_matrix):
     cluster_indices = {i: i for i in range(n)}  # 各データポイントのインデックス
 
     for k in range(n - 1):
-        i, j = np.unravel_index(np.argmin(distance_matrix), distance_matrix.shape)  # 最小距離を持つクラスタの探索
-        min_dist = distance_matrix[i, j]  # 最小距離
+        # 最小距離を持つクラスタの探索
+        i, j = np.unravel_index(np.argmin(distance_matrix), distance_matrix.shape)
+        min_dist = distance_matrix[i, j]
 
         # クラスタの結合
         new_cluster = clusters[i] + clusters[j]
@@ -60,14 +63,15 @@ def single_linkage(base_matrix):
         # 距離行列の更新
         for m in range(n):
             if m != i and m != j:
-                distance_matrix[i, m] = distance_matrix[m, i] = min(distance_matrix[i, m], distance_matrix[j, m])
+                distance_matrix[i, m] = distance_matrix[m, i] = min(distance_matrix[i, m], distance_matrix[j, m])  # 最小距離を保存
 
-        distance_matrix[j, :] = distance_matrix[:, j] = np.inf  # j行とj列を無限大に設定
+        # 結合済みの行と列の距離を無限大に設定
+        distance_matrix[j, :] = distance_matrix[:, j] = np.inf
 
         # クラスタの管理
         clusters[i] = new_cluster
-        clusters[j] = []  # jクラスタを空にすることで再利用を防ぐ
-        cluster_indices[i] = k + n  # 新しいクラスタのインデックスを設定
+        clusters[j] = []
+        cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
 
     return clusterd_matrix
 
