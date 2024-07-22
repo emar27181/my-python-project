@@ -7,74 +7,74 @@ from sklearn.cluster import KMeans
 
 
 # 完全連結法によるクラスタリング
-def complete_linkage(X):
-    n = len(X)
-    Z = np.zeros((n - 1, 4))  # 結果を格納する配列
-    D = squareform(pdist(X))  # 距離行列
-    np.fill_diagonal(D, np.inf)  # 対角要素は無限大にする
+def complete_linkage(base_matrix):
+    n = len(base_matrix)
+    clusterd_matrix = np.zeros((n - 1, 4))
+    distance_matrix = squareform(pdist(base_matrix))
+    np.fill_diagonal(distance_matrix, np.inf)  # 対角要素は無限大にする
 
     clusters = {i: [i] for i in range(n)}  # 各データポイントをクラスタに格納
     cluster_indices = {i: i for i in range(n)}  # 各データポイントのインデックス
 
     for k in range(n - 1):
-        i, j = np.unravel_index(np.argmin(D), D.shape)  # 最小距離を持つクラスタの探索
-        min_dist = D[i, j]  # 最小距離
+        i, j = np.unravel_index(np.argmin(distance_matrix), distance_matrix.shape)  # 最小距離を持つクラスタの探索
+        min_dist = distance_matrix[i, j]  # 最小距離
 
         # クラスタの結合
         new_cluster = clusters[i] + clusters[j]
-        Z[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
+        clusterd_matrix[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
 
         # 距離行列の更新
         for m in range(n):
             if m != i and m != j:
-                D[i, m] = D[m, i] = max(D[i, m], D[j, m])
+                distance_matrix[i, m] = distance_matrix[m, i] = max(distance_matrix[i, m], distance_matrix[j, m])
 
-        D[j, :] = D[:, j] = np.inf  # j行とj列を無限大に設定
+        distance_matrix[j, :] = distance_matrix[:, j] = np.inf  # j行とj列を無限大に設定
 
         # クラスタの管理
         clusters[i] = new_cluster
         clusters[j] = []  # jクラスタを空にすることで再利用を防ぐ
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスを設定
 
-    return Z
+    return clusterd_matrix
 
 
 # 単連結法によるクラスタリング
-def single_linkage(X):
-    n = len(X)
-    Z = np.zeros((n - 1, 4))  # 結果を格納する配列
-    D = squareform(pdist(X))  # 距離行列
-    np.fill_diagonal(D, np.inf)  # 対角要素は無限大にする
+def single_linkage(base_matrix):
+    n = len(base_matrix)
+    clusterd_matrix = np.zeros((n - 1, 4))
+    distance_matrix = squareform(pdist(base_matrix))
+    np.fill_diagonal(distance_matrix, np.inf)  # 対角要素は無限大にする
 
     clusters = {i: [i] for i in range(n)}  # 各データポイントをクラスタに格納
     cluster_indices = {i: i for i in range(n)}  # 各データポイントのインデックス
 
     for k in range(n - 1):
-        i, j = np.unravel_index(np.argmin(D), D.shape)  # 最小距離を持つクラスタの探索
-        min_dist = D[i, j]  # 最小距離
+        i, j = np.unravel_index(np.argmin(distance_matrix), distance_matrix.shape)  # 最小距離を持つクラスタの探索
+        min_dist = distance_matrix[i, j]  # 最小距離
 
         # クラスタの結合
         new_cluster = clusters[i] + clusters[j]
-        Z[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
+        clusterd_matrix[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
 
         # 距離行列の更新
         for m in range(n):
             if m != i and m != j:
-                D[i, m] = D[m, i] = min(D[i, m], D[j, m])
+                distance_matrix[i, m] = distance_matrix[m, i] = min(distance_matrix[i, m], distance_matrix[j, m])
 
-        D[j, :] = D[:, j] = np.inf  # j行とj列を無限大に設定
+        distance_matrix[j, :] = distance_matrix[:, j] = np.inf  # j行とj列を無限大に設定
 
         # クラスタの管理
         clusters[i] = new_cluster
         clusters[j] = []  # jクラスタを空にすることで再利用を防ぐ
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスを設定
 
-    return Z
+    return clusterd_matrix
 
 
 def plot_clustering(clustring_method):
     # 元のデータセット
-    original_data = np.array([
+    input_data = np.array([
         [0, 4],  # A
         [3, 1],  # B
         [4, 1],  # C
@@ -95,7 +95,9 @@ def plot_clustering(clustring_method):
 
     ])
 
-    data = np.vstack((original_data))
+    data = np.vstack((input_data))
+
+    print(f"data: {data}")
 
     # K-means法でクラスタリング
     if (clustring_method == "kmeans"):
