@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.cluster.hierarchy import fcluster
 from scipy.spatial.distance import pdist, squareform
 # my-nlp-venv/lib64/python3.10/site-packages/scipy/cluster/hierarchy.py
-from sklearn.cluster import KMeans
+# from sklearn.cluster import KMeans
 
 
 # 完全連結法によるクラスタリング
@@ -28,7 +28,9 @@ def complete_linkage(base_matrix):
         # 距離行列の更新
         for m in range(n):
             if m != i and m != j:
-                distance_matrix[i, m] = distance_matrix[m, i] = max(distance_matrix[i, m], distance_matrix[j, m])  # 最大距離を保存
+                # 最大距離を保存
+                distance_matrix[i, m] = distance_matrix[m, i] = max(distance_matrix[i, m],
+                                                                    distance_matrix[j, m])
 
         # 結合済みの行と列の距離を無限大に設定
         distance_matrix[j, :] = distance_matrix[:, j] = np.inf
@@ -63,7 +65,9 @@ def single_linkage(base_matrix):
         # 距離行列の更新
         for m in range(n):
             if m != i and m != j:
-                distance_matrix[i, m] = distance_matrix[m, i] = min(distance_matrix[i, m], distance_matrix[j, m])  # 最小距離を保存
+                # 最小距離を保存
+                distance_matrix[i, m] = distance_matrix[m, i] = min(distance_matrix[i, m],
+                                                                    distance_matrix[j, m])
 
         # 結合済みの行と列の距離を無限大に設定
         distance_matrix[j, :] = distance_matrix[:, j] = np.inf
@@ -76,29 +80,29 @@ def single_linkage(base_matrix):
     return clusterd_matrix
 
 
+# k-means法によるクラスタリング
 def kmeans(X, k, max_iters=100, tol=1e-4):
     n, d = X.shape
-    centroids = X[np.random.choice(n, k, replace=False)]  # ランダムに初期重心を選択
-    prev_centroids = centroids.copy()
+    # centroids: 重心
+    # centroids_pre: 更新前の重心
+    centroids = X[np.random.choice(n, k, replace=False)]
+    centroids_pre = centroids.copy()
 
     for _ in range(max_iters):
-        # データポイントを最も近い重心に割り当て
         distances = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
         labels = np.argmin(distances, axis=1)
 
-        # 新しい重心の計算
+        # 重心の更新
         for i in range(k):
             if len(X[labels == i]) > 0:
                 centroids[i] = X[labels == i].mean(axis=0)
 
-        # 収束チェック
-        if np.all(np.linalg.norm(centroids - prev_centroids, axis=1) < tol):
+        # 収束しているかの確認
+        if np.all(np.linalg.norm(centroids - centroids_pre, axis=1) < tol):
             break
 
-        prev_centroids = centroids.copy()
+        centroids_pre = centroids.copy()
 
-    # クラスタ割り当て結果
-    # return labels, centroids
     return labels
 
 
