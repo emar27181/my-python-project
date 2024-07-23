@@ -149,7 +149,7 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST, L
 def main():
 
     # recall@kのグラフの作成
-    load_file_and_generate_graph('recall', 'SAME', [5, 15], [[0, 1, 2]], [[20]], [50])
+    load_file_and_generate_graph('recall', 'SAME', [5, 20], [[0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('recall', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('recall', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
     load_file_and_generate_graph('recall', 'WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
@@ -157,13 +157,13 @@ def main():
     # load_file_and_generate_graph('recall', 'TIME', [10, 10], [[1]], [[20]], [50])  # テストプロット
 
     # precision@kのグラフの作成
-    load_file_and_generate_graph('precision', 'SAME', [5, 15], [[0, 1, 2]], [[20]], [50])
+    load_file_and_generate_graph('precision', 'SAME', [5, 20], [[0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('precision', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('precision', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
     load_file_and_generate_graph('precision', 'WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
 
     # color_count@kのグラフの作成
-    load_file_and_generate_graph('color_count', 'SAME', [5, 15], [[0, 1, 2]], [[20]], [50])
+    load_file_and_generate_graph('color_count', 'SAME', [5, 20], [[0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('color_count', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('color_count', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
     load_file_and_generate_graph('color_count', 'WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
