@@ -142,8 +142,8 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST, L
 
     # 対応するグラフの保存
     file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME_LIST[0]}~{SAME_LIST[1]}_TIME={TIME_LIST}_LIGHT={LIGHTNESS_LIST}_WEIGHT={WEIGHT_LIST}'
-    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{file_name}.png')
-    print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
+    plt.savefig(f'/mnt/c/WSL-directory/my-NLP-project/tmp/plot_evaluate_graph/data/output/{LOAD_ILLUST_DIR_NAME}/{file_name}.png')
+    print(f"./tmp/plot_evaluate_graph/data/output/{LOAD_ILLUST_DIR_NAME}/{file_name}.png が保存されました．\n")
 
 
 def load_file_and_generate_all_graphs(EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST, WEIGHT_LIST):
