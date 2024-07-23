@@ -7,7 +7,7 @@ from scipy.spatial.distance import pdist, squareform
 
 
 # 完全連結法によるクラスタリング
-def complete_linkage(base_matrix):
+def complete_linkage(base_matrix, threshold):
     n = len(base_matrix)
     clusterd_matrix = np.zeros((n - 1, 4))
     distance_matrix = squareform(pdist(base_matrix))
@@ -40,11 +40,14 @@ def complete_linkage(base_matrix):
         clusters[j] = []
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
 
-    return clusterd_matrix
+    clusters = fcluster(clusterd_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
+    # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
+
+    return clusters
 
 
 # 単連結法によるクラスタリング
-def single_linkage(base_matrix):
+def single_linkage(base_matrix, threshold):
     n = len(base_matrix)
     clusterd_matrix = np.zeros((n - 1, 4))
     distance_matrix = squareform(pdist(base_matrix))
@@ -77,7 +80,10 @@ def single_linkage(base_matrix):
         clusters[j] = []
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
 
-    return clusterd_matrix
+    clusters = fcluster(clusterd_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
+    # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
+
+    return clusters
 
 
 # k-means法によるクラスタリング
@@ -111,20 +117,14 @@ def plot_clustering(clustring_method, input_matrix):
     if (clustring_method == "kmeans"):
         # kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(input_matrix)  # ライブラリ関数
         # clusters = kmeans.labels_
-        clusters = kmeans(input_matrix, 3)
+        clusters = kmeans(input_matrix, 5)
     else:
         # 単連結法でクラスタリング
         if (clustring_method == "single"):
-
-            # Z = linkage(data, method='single', metric='euclidean') # ライブラリ関数
-            Z = single_linkage(input_matrix)
+            clusters = single_linkage(input_matrix, 5)
         # 完全連結法でクラスタリング
         elif (clustring_method == "complete"):
-            # Z = linkage(data, method='complete', metric='euclidean') # ライブラリ関数
-            Z = complete_linkage(input_matrix)
-
-        clusters = fcluster(Z, t=1.5, criterion='distance')  # 距離を基準にクラスタリング
-        # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
+            clusters = complete_linkage(input_matrix, 5)
 
     # クラスタリング結果のプロット
     plt.figure(figsize=(10, 10))
