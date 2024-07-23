@@ -146,8 +146,23 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST, L
     print(f"./tmp/plot_evaluate_graph/data/output/{file_name}.png が保存されました．\n")
 
 
+def load_file_and_generate_all_graphs(EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST, WEIGHT_LIST):
+    print("\n")
+    print(f"============ { EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST, WEIGHT_LIST} ==================")
+
+    load_file_and_generate_graph('recall', EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST, WEIGHT_LIST)
+    load_file_and_generate_graph('precision', EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST, WEIGHT_LIST)
+    load_file_and_generate_graph('color_count', EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNESS_LIST, WEIGHT_LIST)
+
+
 def main():
 
+    load_file_and_generate_all_graphs('SAME', [5, 20], [[0, 1, 2]], [[20]], [50])
+    load_file_and_generate_all_graphs('TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
+    load_file_and_generate_all_graphs('LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
+    load_file_and_generate_all_graphs('WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
+
+    """
     # recall@kのグラフの作成
     load_file_and_generate_graph('recall', 'SAME', [5, 20], [[0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('recall', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
@@ -167,6 +182,7 @@ def main():
     load_file_and_generate_graph('color_count', 'TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
     load_file_and_generate_graph('color_count', 'LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
     load_file_and_generate_graph('color_count', 'WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
+    """
 
 
 if __name__ == "__main__":
