@@ -107,7 +107,7 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST, L
         # ラベルを重みの違いに設定
         if (EVAL_PARAM == 'WEIGHT'):
             color = colors[i % len(colors)]
-            label = f'weight={weight}'
+            label = f'weight={weight / 100}'
             i += 1
 
         # 明度のバリエーションによる精度の違いのプロット
@@ -135,10 +135,13 @@ def load_file_and_generate_graph(graph_type, EVAL_PARAM, SAME_LIST, TIME_LIST, L
                     # ラベルを同一色判定の閾値に設定
                     if (EVAL_PARAM == 'SAME'):
                         color = colors[i % len(colors)]
-                        label = f'SAME={same}'
+                        label = f'same={same}'
                         i += 1
 
-                    generate_graph(graph_type, label, color, same, timing, lightness, weight, SAME_LIST, TIME_LIST, WEIGHT_LIST)
+                    MODIFIED_WEIGHT_LIST = [x / 100 for x in WEIGHT_LIST]
+                    # print(MODIFIED_WEIGHT_LIST)
+
+                    generate_graph(graph_type, label, color, same, timing, lightness, weight, SAME_LIST, TIME_LIST, MODIFIED_WEIGHT_LIST)
 
     # 対応するグラフの保存
     file_name = f'{graph_type}@k_illustrator={LOAD_ILLUST_DIR_NAME}_SAME={SAME_LIST[0]}~{SAME_LIST[1]}_TIME={TIME_LIST}_LIGHT={LIGHTNESS_LIST}_WEIGHT={WEIGHT_LIST}'
