@@ -9,7 +9,7 @@ from scipy.spatial.distance import pdist, squareform
 # 完全連結法によるクラスタリング
 def complete_linkage(base_matrix, threshold):
     n = len(base_matrix)
-    clusterd_matrix = np.zeros((n - 1, 4))
+    linkage_matrix = np.zeros((n - 1, 4))
     distance_matrix = squareform(pdist(base_matrix))
     np.fill_diagonal(distance_matrix, np.inf)  # 対角要素は無限大にする
 
@@ -23,7 +23,7 @@ def complete_linkage(base_matrix, threshold):
 
         # クラスタの結合
         new_cluster = clusters[i] + clusters[j]
-        clusterd_matrix[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
+        linkage_matrix[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
 
         # 距離行列の更新
         for m in range(n):
@@ -40,16 +40,15 @@ def complete_linkage(base_matrix, threshold):
         clusters[j] = []
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
 
-    clusters = fcluster(clusterd_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
     # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
 
-    return clusters
+    return fcluster(linkage_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
 
 
 # 単連結法によるクラスタリング
 def single_linkage(base_matrix, threshold):
     n = len(base_matrix)
-    clusterd_matrix = np.zeros((n - 1, 4))
+    linkage_matrix = np.zeros((n - 1, 4))
     distance_matrix = squareform(pdist(base_matrix))
     np.fill_diagonal(distance_matrix, np.inf)  # 対角要素は無限大にする
 
@@ -63,7 +62,7 @@ def single_linkage(base_matrix, threshold):
 
         # クラスタの結合
         new_cluster = clusters[i] + clusters[j]
-        clusterd_matrix[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
+        linkage_matrix[k] = [cluster_indices[i], cluster_indices[j], min_dist, len(new_cluster)]
 
         # 距離行列の更新
         for m in range(n):
@@ -80,10 +79,9 @@ def single_linkage(base_matrix, threshold):
         clusters[j] = []
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
 
-    clusters = fcluster(clusterd_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
     # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
 
-    return clusters
+    return fcluster(linkage_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
 
 
 # k-means法によるクラスタリング
@@ -117,14 +115,14 @@ def plot_clustering(clustring_method, input_matrix):
     if (clustring_method == "kmeans"):
         # kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(input_matrix)  # ライブラリ関数
         # clusters = kmeans.labels_
-        clusters = kmeans(input_matrix, 5)
+        clusters = kmeans(input_matrix, 3)
     else:
         # 単連結法でクラスタリング
         if (clustring_method == "single"):
-            clusters = single_linkage(input_matrix, 5)
+            clusters = single_linkage(input_matrix, 2)
         # 完全連結法でクラスタリング
         elif (clustring_method == "complete"):
-            clusters = complete_linkage(input_matrix, 5)
+            clusters = complete_linkage(input_matrix, 2)
 
     # クラスタリング結果のプロット
     plt.figure(figsize=(10, 10))
