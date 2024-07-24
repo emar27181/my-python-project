@@ -39,9 +39,7 @@ def complete_linkage(base_matrix, threshold):
         clusters[i] = new_cluster
         clusters[j] = []
         cluster_indices[i] = k + n  # 新しいクラスタのインデックスの更新
-
     # clusters = fcluster(Z, t=3, criterion='maxclust')  # クラスタ数を基準にクラスタリング
-
     return fcluster(linkage_matrix, t=threshold, criterion='distance')  # 距離を基準にクラスタリング
 
 
@@ -119,10 +117,10 @@ def plot_clustering(clustring_method, input_matrix):
     else:
         # 単連結法でクラスタリング
         if (clustring_method == "single"):
-            clusters = single_linkage(input_matrix, 2)
+            clusters = single_linkage(input_matrix, 1.5)
         # 完全連結法でクラスタリング
         elif (clustring_method == "complete"):
-            clusters = complete_linkage(input_matrix, 2)
+            clusters = complete_linkage(input_matrix, 1.5)
 
     # クラスタリング結果のプロット
     plt.figure(figsize=(10, 10))
