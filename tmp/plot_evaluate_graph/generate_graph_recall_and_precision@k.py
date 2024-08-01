@@ -160,7 +160,7 @@ def load_file_and_generate_all_graphs(EVAL_PARAM, SAME_LIST, TIME_LIST, LIGHTNES
 
 def main():
 
-    load_file_and_generate_all_graphs('SAME', [5, 20], [[0, 1, 2]], [[20]], [50])
+    load_file_and_generate_all_graphs('SAME', [5, 20], [[0, 1, 2]], [[]], [50])
     load_file_and_generate_all_graphs('TIME', [10, 10], [[0], [1], [2], [0, 1, 2]], [[20]], [50])
     load_file_and_generate_all_graphs('LIGHT', [10, 10], [[0, 1, 2]], [[], [10], [20]], [50])
     load_file_and_generate_all_graphs('WEIGHT', [10, 10], [[0, 1, 2]], [[20]], [0, 25, 50, 75, 100])
