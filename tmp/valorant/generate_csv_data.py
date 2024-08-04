@@ -1,6 +1,13 @@
 import csv
 
 
+def _percent_normalize(value_str):
+    if '%' in value_str:
+        value_str = value_str.replace('%', '')
+    value = float(value_str)
+    return value / 100.0
+
+
 def read_file_to_data(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.read().splitlines()
@@ -10,8 +17,8 @@ def read_file_to_data(file_path):
         person_dict = {
             'Name': lines[i + 1],
             'KD': lines[i + 2],
-            'WinRate': lines[i + 8],
-            'PickRate': lines[i + 10],
+            'WinRate': _percent_normalize(lines[i + 8]),
+            'PickRate': _percent_normalize(lines[i + 10]),
         }
         data_list.append(person_dict)
 
@@ -36,6 +43,9 @@ def main():
 
     output_file_path = (f'tmp/valorant/data/output/{file_name}.csv')
     write_dict_to_csv(data, output_file_path)
+
+    num1 = _percent_normalize("23.1%")
+    print(num1)
 
 
 if __name__ == "__main__":
