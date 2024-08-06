@@ -1,4 +1,5 @@
 import csv
+from config.constants_dev import LOAD_RANK
 
 
 def _percent_normalize(value_str):
@@ -35,17 +36,12 @@ def write_dict_to_csv(data, file_path):
 
 
 def main():
-    file_name = "epi9_act1_allmap_platinum3"
-    # data = read_file_to_data('tmp/valorant/data/input/epi9_act1_allmap_bronze3.txt')
+    file_name = (f"epi9_act1_allmap_{LOAD_RANK}")
     data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt')
-    # data = read_file_to_data('tmp/valorant/data/input/epi9_act1_allmap_immortal3.txt')
     print(data)
 
     output_file_path = (f'tmp/valorant/data/output/{file_name}.csv')
     write_dict_to_csv(data, output_file_path)
-
-    num1 = _percent_normalize("23.1%")
-    print(num1)
 
 
 if __name__ == "__main__":
