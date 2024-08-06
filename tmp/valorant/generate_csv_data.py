@@ -9,7 +9,7 @@ def _percent_normalize(value_str):
     return value / 100.0
 
 
-def read_file_to_data(file_path):
+def read_file_to_data(file_path, load_rank):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.read().splitlines()
 
@@ -20,6 +20,7 @@ def read_file_to_data(file_path):
             'KD': lines[i + 2],
             'WinRate': _percent_normalize(lines[i + 8]),
             'PickRate': _percent_normalize(lines[i + 10]),
+            'Rank': load_rank,
         }
         data_list.append(person_dict)
 
@@ -36,12 +37,27 @@ def write_dict_to_csv(data, file_path):
 
 
 def main():
-    file_name = (f"epi9_act1_allmap_{LOAD_RANK}")
-    data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt')
-    print(data)
+    data = []
+    load_rank = "platinum3"
+    file_name = (f"epi9_act1_allmap_{load_rank}")
+    add_data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+    data = data + add_data
 
-    output_file_path = (f'tmp/valorant/data/output/{file_name}.csv')
+    load_rank = "bronze3"
+    file_name = (f"epi9_act1_allmap_{load_rank}")
+    add_data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+    data = data + add_data
+    # print(data)
+
+    load_rank = "immortal3"
+    file_name = (f"epi9_act1_allmap_{load_rank}")
+    add_data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+    data = data + add_data
+    # print(data)
+
+    output_file_path = (f'tmp/valorant/data/output/epi9_act1_allmap.csv')
     write_dict_to_csv(data, output_file_path)
+    print(f"{output_file_path} is saveed.")
 
 
 if __name__ == "__main__":
