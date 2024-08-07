@@ -82,7 +82,7 @@ def generate_agent_csv_data(load_rank_list):
 
     output_file_path = (f'tmp/valorant/data/output/agent_epi9_act1_allmap.csv')
     write_dict_to_csv(data, output_file_path)
-    print(f"{output_file_path} is saveed.")
+    print(f"{output_file_path} is saved.")
 
 
 def main():
