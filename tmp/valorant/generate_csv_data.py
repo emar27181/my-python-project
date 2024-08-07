@@ -9,7 +9,7 @@ def _percent_normalize(value_str):
     return value / 100.0
 
 
-def read_file_to_data(file_path, load_rank):
+def read_agent_file_to_data(file_path, load_rank):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.read().splitlines()
 
@@ -38,20 +38,21 @@ def write_dict_to_csv(data, file_path):
 
 def main():
     data = []
+
     load_rank = "platinum3"
     file_name = (f"epi9_act1_allmap_{load_rank}")
-    add_data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+    add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
     data = data + add_data
 
     load_rank = "bronze3"
     file_name = (f"epi9_act1_allmap_{load_rank}")
-    add_data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+    add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
     data = data + add_data
     # print(data)
 
     load_rank = "immortal3"
     file_name = (f"epi9_act1_allmap_{load_rank}")
-    add_data = read_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+    add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
     data = data + add_data
     # print(data)
 
