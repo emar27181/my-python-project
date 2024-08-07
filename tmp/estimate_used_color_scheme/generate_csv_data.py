@@ -33,11 +33,25 @@ def generate_csv_used_color_scheme(file_path, illustrator_name):
             used_color_list.append(add_dict)
 
     print(f"used_color_list: {used_color_list}")
+    return used_color_list
+
+
+def write_dict_to_csv(data, file_path):
+    with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = data[0].keys()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        writer.writerows(data)
 
 
 def main():
     illustrator_name = "gaako_instagram"
-    generate_csv_used_color_scheme(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
+    data = generate_csv_used_color_scheme(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
+
+    output_file_path = "tmp/estimate_used_color_scheme/data/output/log_used_all_colors.csv"
+    write_dict_to_csv(data, output_file_path)
+    print(f"{output_file_path} is saved.")
 
 
 if __name__ == "__main__":
