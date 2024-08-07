@@ -3,7 +3,8 @@ import csv
 from utils.color_utils import hex_to_rgb, rgb_to_hsl
 
 
-def generate_csv_used_color_scheme(file_path, illustrator_name):
+# 使用した配色のjsonファイルを辞書型のデータに変換する関数
+def used_color_scheme_json_to_dict(file_path, illustrator_name):
     with open(file_path, 'r', encoding='utf-8') as file:
         json_data = json.load(file)
 
@@ -47,7 +48,7 @@ def write_dict_to_csv(data, file_path):
 
 def main():
     illustrator_name = "gaako_instagram"
-    data = generate_csv_used_color_scheme(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
+    data = used_color_scheme_json_to_dict(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
 
     output_file_path = "tmp/estimate_used_color_scheme/data/output/log_used_all_colors.csv"
     write_dict_to_csv(data, output_file_path)
