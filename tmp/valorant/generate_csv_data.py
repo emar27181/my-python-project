@@ -5,7 +5,10 @@ from config.constants_dev import LOAD_RANK
 def _percent_normalize(value_str):
     if '%' in value_str:
         value_str = value_str.replace('%', '')
-    value = float(value_str)
+    try:
+        value = float(value_str)
+    except ValueError:
+        value = -1
     return value / 100.0
 
 
