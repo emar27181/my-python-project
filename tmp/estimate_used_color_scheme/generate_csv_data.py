@@ -3,7 +3,7 @@ import csv
 from utils.color_utils import hex_to_rgb, rgb_to_hsl
 
 
-def generate_csv_used_color_scheme(file_path):
+def generate_csv_used_color_scheme(file_path, illustrator_name):
     with open(file_path, 'r', encoding='utf-8') as file:
         json_data = json.load(file)
 
@@ -27,6 +27,7 @@ def generate_csv_used_color_scheme(file_path):
                 'Lightness': color_hsl[2],
                 'Rate': color_data['rate'],
                 'IllustName': color_scheme[0]['illustName'],
+                'illustrator_name': illustrator_name,
             }
             # print(f"add_dict: {add_dict}")
             used_color_list.append(add_dict)
@@ -35,7 +36,8 @@ def generate_csv_used_color_scheme(file_path):
 
 
 def main():
-    generate_csv_used_color_scheme('tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_gaako_instagram.json')
+    illustrator_name = "gaako_instagram"
+    generate_csv_used_color_scheme(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
 
 
 if __name__ == "__main__":
