@@ -36,29 +36,21 @@ def write_dict_to_csv(data, file_path):
         writer.writerows(data)
 
 
-def main():
+# 引数で受け取ったランクのエージェントに関するデータのCSVファイルを生成する関数
+def generate_agent_csv_data(load_rank_list):
     data = []
+    for load_rank in load_rank_list:
+        file_name = (f"epi9_act1_allmap_{load_rank}")
+        add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+        data = data + add_data
 
-    load_rank = "platinum3"
-    file_name = (f"epi9_act1_allmap_{load_rank}")
-    add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
-    data = data + add_data
-
-    load_rank = "bronze3"
-    file_name = (f"epi9_act1_allmap_{load_rank}")
-    add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
-    data = data + add_data
-    # print(data)
-
-    load_rank = "immortal3"
-    file_name = (f"epi9_act1_allmap_{load_rank}")
-    add_data = read_agent_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
-    data = data + add_data
-    # print(data)
-
-    output_file_path = (f'tmp/valorant/data/output/epi9_act1_allmap.csv')
+    output_file_path = (f'tmp/valorant/data/output/agent_epi9_act1_allmap.csv')
     write_dict_to_csv(data, output_file_path)
     print(f"{output_file_path} is saveed.")
+
+
+def main():
+    generate_agent_csv_data(["bronze3", "platinum3", "immortal3"])
 
 
 if __name__ == "__main__":
