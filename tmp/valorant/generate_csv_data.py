@@ -30,6 +30,39 @@ def read_agent_file_to_data(file_path, load_rank):
     return data_list
 
 
+def read_rifle_file_to_data(file_path, load_rank):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lines = file.read().splitlines()
+
+    data_list = []
+    for i in range(0, len(lines), 9):
+        person_dict = {
+            'Name': lines[i + 1],
+            'KillPerRound': lines[i + 2],
+            'HeadShotRate': _percent_normalize(lines[i + 4]),
+            'BodyShotRate': _percent_normalize(lines[i + 5]),
+            'LegShotRate': _percent_normalize(lines[i + 6]),
+            'AverageDamage': lines[i + 7],
+            'Rank': load_rank,
+        }
+        data_list.append(person_dict)
+
+    return data_list
+
+
+# 引数で受け取ったライフルに関するデータのCSVファイルを生成する関数
+def generate_rifle_csv_data(load_rank_list):
+    data = []
+    for load_rank in load_rank_list:
+        file_name = (f"rifle_epi9_act1_allmap_{load_rank}")
+        add_data = read_rifle_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+        data = data + add_data
+
+    output_file_path = (f'tmp/valorant/data/output/rifle_epi9_act1_allmap.csv')
+    write_dict_to_csv(data, output_file_path)
+    print(f"{output_file_path} is saveed.")
+
+
 def write_dict_to_csv(data, file_path):
     with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = data[0].keys()
@@ -54,6 +87,7 @@ def generate_agent_csv_data(load_rank_list):
 
 def main():
     generate_agent_csv_data(["bronze3", "platinum3", "immortal3"])
+    generate_rifle_csv_data(["iron3", "bronze3", "silver3", "gold3", "platinum3", "diamond3", "ascendant3", "immortal3", "radiant"])
 
 
 if __name__ == "__main__":
