@@ -15,10 +15,10 @@ def used_color_scheme_json_to_dict(file_path, illustrator_name):
 
             color_hex = color_data['color']
             color_rgb = hex_to_rgb(color_hex)
-            print(f"color_rgb = {color_rgb}")
+            # print(f"color_rgb = {color_rgb}")
             color_hsl = rgb_to_hsl(color_rgb)
-            print(f"color_hsl = { color_hsl }")
-            print("")
+            # print(f"color_hsl = { color_hsl }")
+            # print("")
             # print(f"color_data: {color_data}")
 
             add_dict = {
@@ -33,7 +33,7 @@ def used_color_scheme_json_to_dict(file_path, illustrator_name):
             # print(f"add_dict: {add_dict}")
             used_color_list.append(add_dict)
 
-    print(f"used_color_list: {used_color_list}")
+    # print(f"used_color_list: {used_color_list}")
     return used_color_list
 
 
@@ -46,13 +46,21 @@ def write_dict_to_csv(data, file_path):
         writer.writerows(data)
 
 
-def main():
-    illustrator_name = "gaako_instagram"
-    data = used_color_scheme_json_to_dict(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
+def generate_used_colors_csv_data(illustrator_name_list):
+    data = []
+
+    for illustrator_name in illustrator_name_list:
+        add_data = used_color_scheme_json_to_dict(f'tmp/estimate_used_color_scheme/data/output/log_used_color_scheme_{illustrator_name}.json', illustrator_name)
+        data = data + add_data
 
     output_file_path = "tmp/estimate_used_color_scheme/data/output/log_used_all_colors.csv"
     write_dict_to_csv(data, output_file_path)
     print(f"{output_file_path} is saved.")
+    print("")
+
+
+def main():
+    generate_used_colors_csv_data(["yoshi_mi_yoshi", "NCG", "gaako_instagram", "gaako"])
 
 
 if __name__ == "__main__":
