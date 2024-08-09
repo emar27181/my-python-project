@@ -55,17 +55,32 @@ def read_agent_avility_file_to_data(file_path, load_rank):
         lines = file.read().splitlines()
 
     data_list = []
-    for i in range(0, len(lines), 14):
+    for i in range(0, len(lines), 7):
         person_dict = {
             'Name': lines[i + 1],
-            'KD': lines[i + 2],
-            'WinRate': _percent_normalize(lines[i + 8]),
-            'PickRate': _percent_normalize(lines[i + 10]),
+            'Ability1': lines[i + 2],
+            'Ability2': lines[i + 3],
+            'Ability3': lines[i + 4],
+            'Ultimate': lines[i + 5],
+            'Matches': lines[i + 6],
             'Rank': load_rank,
         }
         data_list.append(person_dict)
 
     return data_list
+
+
+# 引数で受け取ったエージェントのスキルに関するデータのCSVファイルを生成する関数
+def generate_agent_avility_csv_data(load_rank_list):
+    data = []
+    for load_rank in load_rank_list:
+        file_name = (f"agent_avility_epi9_act1_allmap_{load_rank}")
+        add_data = read_agent_avility_file_to_data(f'tmp/valorant/data/input/{file_name}.txt', load_rank)
+        data = data + add_data
+
+    output_file_path = (f'tmp/valorant/data/output/agent_avility_epi9_act1_allmap.csv')
+    write_dict_to_csv(data, output_file_path)
+    print(f"{output_file_path} is saveed.")
 
 
 # 引数で受け取ったライフルに関するデータのCSVファイルを生成する関数
@@ -106,6 +121,7 @@ def generate_agent_csv_data(load_rank_list):
 def main():
     generate_agent_csv_data(["bronze3", "platinum3", "immortal3"])
     generate_rifle_csv_data(["iron3", "bronze3", "silver3", "gold3", "platinum3", "diamond3", "ascendant3", "immortal3", "radiant"])
+    generate_agent_avility_csv_data(["iron3", "bronze3", "silver3", "gold3", "platinum3", "diamond3", "ascendant3", "immortal3", "radiant"])
 
 
 if __name__ == "__main__":
