@@ -50,12 +50,27 @@ def read_rifle_file_to_data(file_path, load_rank):
     return data_list
 
 
+def get_agent_role(agent_name):
+    if agent_name in ['Jett', 'Raze', 'Neon', 'Reyna', 'Iso', 'Phoenix', 'Yoru']:
+        return "duelist"
+    elif agent_name in ['Omen', 'Viper', 'Brimstone', 'Astra', 'Harbor', 'Clove']:
+        return "controller"
+    elif agent_name in ['Sova', 'Fade', 'Skye', 'Breach', 'Gekko', 'KAY/O']:
+        return "initiater"
+    elif agent_name in ['Killjoy', 'Cypher', 'Sage', 'Chamber', 'Deadlock']:
+        return "sentinel"
+    else:
+        return "unknown"
+
+
 def read_agent_avility_file_to_data(file_path, load_rank):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.read().splitlines()
 
     data_list = []
     for i in range(0, len(lines), 7):
+        role = get_agent_role(lines[i + 1])
+
         person_dict = {
             'Name': lines[i + 1],
             'Ability1': lines[i + 2],
@@ -64,6 +79,7 @@ def read_agent_avility_file_to_data(file_path, load_rank):
             'Ultimate': lines[i + 5],
             'Matches': lines[i + 6],
             'Rank': load_rank,
+            'Role': role,
         }
         data_list.append(person_dict)
 
