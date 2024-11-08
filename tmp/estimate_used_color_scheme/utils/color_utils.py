@@ -13,11 +13,44 @@ def print_colored_text(text, rgb):
     hex_color = '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
 
     # ANSIエスケープシーケンスを使って色を設定
-    print(f"\033[38;2;{rgb[0]};{rgb[1]};{rgb[2]}m{text}\033[0m", end="  ")
+    print(f"\033[38;2;{rgb[0]};{rgb[1]};{rgb[2]}m{text}\033[0m", end="")
 
 
 def rgb_to_hex(rgb):
     return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+
+
+def rgb_to_hsl(rgb):
+    r = rgb[0] / 255.0
+    g = rgb[1] / 255.0
+    b = rgb[2] / 255.0
+
+    max_val = max(r, g, b)
+    min_val = min(r, g, b)
+    l = (max_val + min_val) / 2
+
+    if max_val == min_val:
+        h = s = 0  # achromatic
+    else:
+        d = max_val - min_val
+        s = d / (2.0 - max_val - min_val) if l > 0.5 else d / (max_val + min_val)
+
+        if max_val == r:
+            h = (g - b) / d + (6 if g < b else 0)
+        elif max_val == g:
+            h = (b - r) / d + 2
+        else:
+            h = (r - g) / d + 4
+        h /= 6
+
+    return int(h * 360), int(s * 100), int(l * 100)
+
+
+"""
+print(rgb_to_hsl(255, 0, 0))
+print(rgb_to_hsl(255, 255, 255))
+print(rgb_to_hsl(255, 125, 0))
+"""
 
 
 def hsl_to_rgb(h, s, l):
@@ -62,8 +95,9 @@ print(hex_to_rgb("#FF0000"))
 print(hex_to_rgb("#FF5500"))
 """
 
-
 # 使用配色のうちΔE値が5以下の色を結合する関数
+
+
 def merge_similar_color(color_scheme, threshold):
     merged_colors = []  # 結合する色を保存する配列を初期化
 
@@ -87,3 +121,9 @@ def merge_similar_color(color_scheme, threshold):
         merge_color_rgb = np.round(merge_color_rgb).astype(int)
         merged_colors.append([merge_color_rgb, merge_color_total_count])
     return merged_colors
+
+
+# 角度の差(0°~180°)を計算する関数
+def calc_angle_diff(angle1, angle2):
+    diff = abs(angle1 - angle2)
+    return diff if diff <= 180 else 360 - diff

@@ -3,4 +3,8 @@ settings.json
 data/
 src/test/
 *.pyc
+*_dev*
 tmp/output
+
+tmp/try/
+tmp/plot_evaluate_graph/config/*
