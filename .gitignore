@@ -6,4 +6,5 @@ src/test/
 *_dev*
 tmp/output
 
+tmp/try/
 tmp/plot_evaluate_graph/config/*
